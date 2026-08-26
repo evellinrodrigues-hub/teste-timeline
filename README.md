@@ -34,14 +34,43 @@ py -m http.server 5500
 
 ---
 
-## Duas páginas
+## Publicar (GitHub Pages)
 
-| Arquivo | O que é |
-| --- | --- |
-| `index.html` | **A entrega.** Os dois frames unidos: rola vertical, prende a timeline e rola horizontal, solta e volta a rolar vertical. |
-| `timeline-horizontal.html` | Só a linha do tempo, em tamanho real (4746 × 1983 px), sem pin e sem escala. Útil para conferir o desenho contra o Figma. Compartilha o mesmo módulo CSS do `index.html`. |
+Site estático, sem build: o Pages serve a pasta como está.
 
-Nenhuma das duas importa `main.css` — veja [Sobras](#sobras).
+1. Crie um repositório **público** vazio em [github.com/new](https://github.com/new)
+   (Pages em repositório privado exige plano pago). Sem README, o projeto já tem.
+2. Ligue o remoto e publique:
+
+   ```powershell
+   git remote add origin https://github.com/SEU-USUARIO/sport-timeline.git
+   git push -u origin main
+   ```
+
+3. No repositório: **Settings → Pages → Source: Deploy from a branch →
+   `main` / `(root)` → Save**.
+
+Em 1–2 minutos o site sai em `https://SEU-USUARIO.github.io/sport-timeline/`.
+
+Três coisas que costumam quebrar nessa passagem e que aqui já estão resolvidas:
+
+- **Maiúsculas.** O Windows ignora, o servidor do Pages (Linux) não. As 41
+  referências locais foram checadas uma a uma contra os nomes reais — batem.
+- **Caminhos.** Todos relativos, então funciona na subpasta `/sport-timeline/`
+  sem `<base href>`.
+- **Jekyll.** O `.nojekyll` na raiz desliga o processamento e serve os arquivos
+  intactos.
+
+Peso: 5,1 MB, maior arquivo 2,1 MB (`fechamento.png`) — folgado nos limites do
+Pages (100 MB por arquivo, 1 GB no repositório).
+
+---
+
+## Uma página
+
+`index.html` é o site inteiro: rola vertical, prende a timeline e rola
+horizontal, solta e volta a rolar vertical. Não há segunda página, e nada além
+da cadeia de `assets/css/desktop.css` é carregado — veja [Sobras](#sobras).
 
 ---
 
@@ -178,17 +207,15 @@ porque a origem já era menor que 2×.
 ```
 sport-timeline/
 ├─ index.html                     # ★ a entrega: frame 1:2 + timeline horizontal
-├─ timeline-horizontal.html       # só a timeline, em tamanho real
+├─ .nojekyll                      # GitHub Pages: serve os arquivos como estão
 ├─ assets/
 │  ├─ css/
-│  │  ├─ desktop.css              # ★ índice de imports do index.html
-│  │  ├─ timeline-horizontal.css  # índice de imports da página avulsa
+│  │  ├─ desktop.css              # ★ índice de imports (a cadeia inteira)
 │  │  ├─ base/
 │  │  │  ├─ tokens.css            # ← cores, fontes, escalas + grupo --fig-*
-│  │  │  └─ frame-reset.css       # ← reset das duas páginas
+│  │  │  └─ frame-reset.css       # ← reset da página
 │  │  ├─ modules/
 │  │  │  └─ timeline-horizontal.css   # ★ o desenho da timeline (namespace tlh-)
-│  │  │                               #   consumido pelas DUAS páginas
 │  │  └─ desktop/
 │  │     ├─ canvas.css            # palcos, escala, fundos full-bleed
 │  │     ├─ sections.css          # carta, hero, números, resultados, fechamento
@@ -201,9 +228,10 @@ sport-timeline/
 └─ README.md
 ```
 
-O módulo `modules/timeline-horizontal.css` é o mesmo arquivo nas duas páginas —
-alterou a timeline, as duas acompanham. Ele não sabe onde está montado: quem
-decide escala e posicionamento é o consumidor.
+`modules/timeline-horizontal.css` continua sem saber onde está montado: só
+descreve o desenho do frame 2001:3 em coordenadas absolutas. Quem decide escala
+e posicionamento é o consumidor — hoje, o pin do `index.html`. Foi assim que a
+timeline pôde ser embutida sem tocar no desenho.
 
 Convenção de nomes: **BEM enxuto** — `.bloco__elemento` e `.bloco--variante`.
 Nenhuma regra usa `!important` e nenhum seletor passa de 2 níveis de
@@ -213,24 +241,27 @@ especificidade.
 
 ## Sobras
 
-Houve antes um terceiro arquivo, `index.html`, com uma releitura **responsiva**
-do protótipo em colunas fluidas. Ele não existe mais — o nome passou a ser o da
-entrega. O que ele usava continua no disco, sem ninguém apontando para lá:
+O projeto teve antes mais duas peças, hoje fora dele:
 
-```
-assets/css/main.css                  e tudo que só ele importa:
-assets/css/base/{reset,typography,layout,utilities}.css
-assets/css/components/*.css          (7 arquivos)
-assets/css/sections/*.css            (8 arquivos)
-assets/js/main.js
-assets/img/{crest,placeholder}.svg
-assets/img/desktop/{janeiro,fevereiro,marco}.png
-assets/img/desktop/{axis-v,node,stem-278,stem-282}.svg
-assets/img/desktop/{foto-k7,foto-k8}.jpg
-```
+- um `index.html` com uma releitura **responsiva** do protótipo em colunas
+  fluidas — o nome passou a ser o da entrega;
+- um `timeline-horizontal.html`, a timeline sozinha em tamanho real, usada para
+  conferir o desenho contra o Figma.
 
-São ~2,2 MB parados, mais o CSS. Deixei no lugar caso o layout fluido ou a
-linha do tempo vertical voltem a interessar; nada quebra se apagar tudo.
+Os 33 arquivos que só eles consumiam (`main.css` e seus 20 imports, `main.js`,
+os PNGs da linha do tempo vertical, os placeholders) foram removidos: **2,26 MB**
+a menos. A lista exata não foi escrita à mão — saiu de um caminhamento pelo
+grafo de referências a partir do `index.html`, e depois do corte as 41
+referências restantes foram reconferidas uma a uma.
+
+Nada disso se perdeu. O primeiro commit do repositório tem tudo; para
+recuperar:
+
+```powershell
+git show <primeiro-commit>:assets/css/main.css
+# ou, para trazer de volta um arquivo inteiro:
+git checkout <primeiro-commit> -- assets/css/main.css
+```
 
 ---
 
@@ -251,9 +282,10 @@ O grupo `--fig-*` é o que as páginas usam de fato (valores do Dev Mode):
 | `--fig-body` | `#cec8c4` | corpo de texto |
 | `--fig-shadow` | `#b50600` | sombra sólida do botão do organograma |
 
-O grupo `--color-*` no mesmo arquivo pertencia ao site responsivo e sobrevive
-junto com as sobras acima. Os dois conjuntos convivem de propósito: não
-unifique sem decidir antes qual dos dois vale.
+O mesmo arquivo ainda guarda os grupos `--color-*` e `--tl-*`, que pertenciam
+ao site responsivo. Nenhuma regra viva os lê hoje — são declarações inertes,
+alguns bytes, sem efeito na página. Deixei porque são a única memória da
+paleta alternativa; se for unificar, decida antes qual dos dois conjuntos vale.
 
 ### Geometria dos frames
 

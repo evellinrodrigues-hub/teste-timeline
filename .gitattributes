@@ -1,0 +1,10 @@
+# Normaliza a quebra de linha no repositório: LF sempre, aqui e no servidor.
+# Sem isto, um clone feito no Windows reescreve tudo em CRLF e o diff seguinte
+# mostra o arquivo inteiro como alterado.
+* text=auto eol=lf
+
+# Binários: nunca converter.
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff2 binary
