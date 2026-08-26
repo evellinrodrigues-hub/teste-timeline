@@ -1,0 +1,37 @@
+/* ============================================================
+   Sport Club do Recife — Balanço do 1º semestre
+   Folha de estilo principal (índice de imports)
+
+   Ordem importa: base → componentes → seções → utilitários.
+   Para produção, concatene/minifique estes arquivos em um único
+   bundle (ex.: postcss-import + cssnano) para evitar os requests
+   em cascata do @import.
+   ============================================================ */
+
+/* --- Base ------------------------------------------------- */
+@import url("base/reset.css");
+@import url("base/tokens.css");
+@import url("base/typography.css");
+@import url("base/layout.css");
+
+/* --- Componentes ------------------------------------------ */
+@import url("components/button.css");
+@import url("components/section-heading.css");
+@import url("components/stat-card.css");
+@import url("components/result-card.css");
+@import url("components/photo.css");
+@import url("components/socio-results.css");
+@import url("components/timeline.css");
+
+/* --- Seções ----------------------------------------------- */
+@import url("sections/letter.css");
+@import url("sections/hero.css");
+@import url("sections/org.css");
+@import url("sections/numbers.css");
+@import url("sections/timeline-section.css");
+@import url("sections/results.css");
+@import url("sections/closing.css");
+@import url("sections/footer.css");
+
+/* --- Utilitários (por último: sobrescrevem) ---------------- */
+@import url("base/utilities.css");

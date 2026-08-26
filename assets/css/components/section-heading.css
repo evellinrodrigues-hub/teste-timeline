@@ -1,0 +1,26 @@
+/* ============================================================
+   Título de seção
+   ============================================================ */
+
+.section-heading {
+  margin-bottom: var(--space-2xl);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-snug);
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-red-bright);
+}
+
+.section-heading--white {
+  color: var(--color-text);
+  font-size: var(--fs-3xl);
+  max-width: 22ch;
+  margin-inline: auto;
+}
+
+.section-heading--sm {
+  font-size: var(--fs-lg);
+  letter-spacing: var(--ls-wide);
+  margin-bottom: var(--space-md);
+}

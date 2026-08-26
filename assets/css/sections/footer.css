@@ -1,0 +1,14 @@
+/* ============================================================
+   Rodapé
+   ============================================================ */
+
+.site-footer {
+  padding-block: var(--space-lg);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--color-text-dim);
+  background: var(--color-bg);
+  border-top: var(--border-hair) solid var(--color-border);
+}

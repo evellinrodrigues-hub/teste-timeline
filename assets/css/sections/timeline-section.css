@@ -1,0 +1,14 @@
+/* ============================================================
+   Seção 5 — Envelope da linha do tempo
+   ============================================================ */
+
+.section--timeline {
+  padding-block: var(--space-3xl);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgb(143 23 16 / 0.16) 0%, transparent 60%),
+    var(--color-bg-soft);
+}
+
+.section--timeline .section-heading--white {
+  margin-bottom: var(--space-xl);
+}

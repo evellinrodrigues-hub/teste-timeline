@@ -1,0 +1,56 @@
+/* ============================================================
+   Tipografia base
+   ============================================================ */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* Todos os títulos do layout são caixa-alta, pesados e apertados. */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  font-weight: var(--fw-bold);
+}
+
+/* Link textual dentro de blocos de corpo */
+.letter__body a,
+.closing__body a {
+  color: var(--color-red-bright);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.letter__body a:hover,
+.closing__body a:hover {
+  color: var(--color-gold);
+}
+
+/* Nota de rodapé (asterisco sob os blocos de números) */
+.footnote {
+  margin-top: var(--space-lg);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-normal);
+  color: var(--color-text-dim);
+  text-align: center;
+}

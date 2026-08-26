@@ -1,0 +1,11 @@
+/* ============================================================
+   Seção 3 — Organograma executivo
+   ============================================================ */
+
+.section--org {
+  background: var(--color-bg);
+}
+
+.section--org .section-heading {
+  margin-bottom: var(--space-md);
+}

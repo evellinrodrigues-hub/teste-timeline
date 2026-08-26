@@ -1,0 +1,119 @@
+/* ============================================================
+   Design tokens
+   Valores extraídos visualmente das exportações do Figma.
+   Ao conectar o Dev Mode, confira os hex exatos e ajuste aqui —
+   todo o resto do CSS consome apenas estas variáveis.
+   ============================================================ */
+
+:root {
+  /* ---------- Cores: superfícies ---------- */
+  --color-bg: #0a0a0a;
+  --color-bg-soft: #101010;
+  --color-surface: #161616;
+  --color-surface-2: #1d1d1d;
+  --color-border: #2a2a2a;
+
+  /* ---------- Cores: marca ---------- */
+  --color-red: #e63329;          /* vermelho institucional */
+  --color-red-bright: #ff4438;   /* títulos e destaques */
+  --color-red-deep: #8f1710;     /* sombras / gradientes */
+  --color-gold: #f2d14b;         /* escudo e detalhes */
+
+  /* ---------- Protótipo Figma: valores exatos do Dev Mode ----------
+     Consumidos pelas páginas 1:1 (desktop.html, timeline-horizontal.html).
+     NÃO são os mesmos hex do site responsivo — os dois conjuntos convivem
+     de propósito. Não unificar sem decidir antes qual dos dois vale. */
+  --fig-bg:     #111111;   /* fundo dos frames                      */
+  --fig-red:    #e23a34;   /* títulos, molduras, eixo, botões       */
+  --fig-yellow: #f9df28;   /* números, meses e texto sobre vermelho */
+  --fig-body:   #cec8c4;   /* corpo de texto                        */
+  --fig-shadow: #b50600;   /* sombra sólida do botão do organograma */
+
+  /* Geometria dos frames, em px sem unidade — o JS lê estes mesmos
+     números; mantenha os dois lados em sincronia. */
+  --fig-desktop-w: 1280;   /* frame "Desktop" · node 1:2            */
+  --fig-tl-w: 4746;        /* frame "Timeline horizontal" · 2001:3  */
+  --fig-tl-h: 1983;
+
+  /* ---------- Cores: texto ---------- */
+  --color-text: #ffffff;
+  --color-text-muted: #b8b8b8;
+  --color-text-dim: #8a8a8a;
+  --color-focus: var(--color-gold);
+
+  /* ---------- Tipografia ---------- */
+  --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  /* Escala fluida (min 360px → max 1440px) */
+  --fs-2xs: clamp(0.625rem, 0.60rem + 0.12vw, 0.6875rem);  /* 10 → 11 */
+  --fs-xs:  clamp(0.6875rem, 0.65rem + 0.19vw, 0.8125rem); /* 11 → 13 */
+  --fs-sm:  clamp(0.8125rem, 0.78rem + 0.19vw, 0.9375rem); /* 13 → 15 */
+  --fs-md:  clamp(0.9375rem, 0.90rem + 0.23vw, 1.0625rem); /* 15 → 17 */
+  --fs-lg:  clamp(1.125rem, 1.03rem + 0.47vw, 1.375rem);   /* 18 → 22 */
+  --fs-xl:  clamp(1.375rem, 1.16rem + 1.04vw, 2rem);       /* 22 → 32 */
+  --fs-2xl: clamp(1.75rem, 1.37rem + 1.88vw, 2.75rem);     /* 28 → 44 */
+  --fs-3xl: clamp(2.25rem, 1.61rem + 3.19vw, 4rem);        /* 36 → 64 */
+  --fs-4xl: clamp(2.75rem, 1.79rem + 4.79vw, 5.375rem);    /* 44 → 86 */
+
+  --lh-tight: 1.02;
+  --lh-snug: 1.15;
+  --lh-normal: 1.45;
+  --lh-loose: 1.65;
+
+  --ls-tight: -0.02em;
+  --ls-wide: 0.06em;
+  --ls-wider: 0.12em;
+
+  /* ---------- Espaçamento ---------- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: clamp(3rem, 6vw, 5rem);
+  --space-3xl: clamp(4rem, 9vw, 8rem);
+
+  /* ---------- Layout ---------- */
+  --container-max: 1240px;
+  --container-narrow: 780px;
+  --container-pad: clamp(1.25rem, 5vw, 3rem);
+
+  /* ---------- Formas ---------- */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+  --border-hair: 1px;
+  --border-thin: 1.5px;
+  --border-thick: 2px;
+
+  /* ---------- Sombras ---------- */
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 0.45);
+  --shadow-md: 0 10px 30px rgb(0 0 0 / 0.55);
+  --shadow-glow-red: 0 0 24px rgb(230 51 41 / 0.35);
+
+  /* ---------- Movimento ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 260ms;
+  --dur-slow: 620ms;
+
+  /* ---------- Linha do tempo ----------
+     O nº de colunas NÃO mora aqui: repeat() não aceita var() na contagem.
+     Ele é um literal em components/timeline.css (.timeline__track). */
+  --tl-col-width: 380px;       /* largura da coluna no desktop */
+  --tl-col-gap: 3.5rem;
+  --tl-stem: 74px;             /* haste entre pílula e eixo */
+  --tl-dot: 22px;              /* diâmetro do nó no eixo */
+  --tl-axis-thickness: 2px;
+  --tl-rail-inset: 2.25rem;    /* recuo da haste na coluna */
+}

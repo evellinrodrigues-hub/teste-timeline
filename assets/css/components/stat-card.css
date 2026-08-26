@@ -1,0 +1,86 @@
+/* ============================================================
+   Card de número (seção "Gestão em números")
+   Número grande em branco + plaqueta vermelha com o rótulo.
+   ============================================================ */
+
+.stat-grid {
+  display: grid;
+  /* 6 colunas: cards normais ocupam 2, os largos ocupam 3 */
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.stat-card {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: clamp(1rem, 2.5vw, 1.75rem) clamp(0.75rem, 2vw, 1.25rem)
+           clamp(0.75rem, 2vw, 1.25rem);
+  text-align: center;
+  background: var(--color-surface);
+  border: var(--border-hair) solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out);
+}
+
+.stat-card:hover {
+  border-color: var(--color-red);
+  background: var(--color-surface-2);
+}
+
+.stat-card--wide {
+  grid-column: span 3;
+}
+
+.stat-card__value {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Plaqueta vermelha do rótulo */
+.stat-card__label {
+  width: 100%;
+  padding: 0.6em 0.75em;
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  background: var(--color-red);
+  border-radius: var(--radius-xs);
+  text-wrap: balance;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 900px) {
+  .stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-card,
+  .stat-card--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 520px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-card,
+  .stat-card--wide {
+    grid-column: span 1;
+  }
+}

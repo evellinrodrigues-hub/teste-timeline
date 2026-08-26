@@ -1,0 +1,45 @@
+/* ============================================================
+   Seção 7 — Fechamento
+   ============================================================ */
+
+.section--closing {
+  padding-bottom: 0;
+  background: var(--color-bg);
+}
+
+.closing__title {
+  margin-bottom: var(--space-lg);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: var(--color-red-bright);
+}
+
+.closing__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-loose);
+  color: var(--color-text-muted);
+}
+
+.closing__media {
+  margin-top: var(--space-2xl);
+}
+
+.closing__media img {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  object-fit: cover;
+  object-position: center 35%;
+  /* véu escuro para o fechamento fundir com o rodapé */
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+@media (max-width: 640px) {
+  .closing__media img {
+    aspect-ratio: 16 / 10;
+  }
+}

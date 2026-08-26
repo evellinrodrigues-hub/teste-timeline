@@ -1,0 +1,42 @@
+/* ============================================================
+   Seção 1 — Carta / comunicado da diretoria
+   ============================================================ */
+
+.section--letter {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-xl);
+  background: var(--color-bg);
+}
+
+.letter__title {
+  margin-bottom: var(--space-lg);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text);
+}
+
+.letter__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-loose);
+  color: var(--color-text-muted);
+}
+
+.letter__lead {
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text);
+}
+
+.letter__signature {
+  margin-top: var(--space-lg);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-red-bright);
+}

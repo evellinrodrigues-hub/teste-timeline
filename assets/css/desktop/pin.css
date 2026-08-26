@@ -1,0 +1,144 @@
+/* ============================================================
+   DESKTOP · PIN DA LINHA DO TEMPO
+   Scroll vertical → horizontal → vertical.
+
+   ---------------------------------------------------------
+   COMO FUNCIONA
+   ---------------------------------------------------------
+   Não há sequestro de `wheel`. A seção `.dk-pin` recebe uma
+   altura maior que a viewport; dentro dela, `.dk-pin__viewport`
+   é `position: sticky` e fica parada enquanto a seção passa.
+   O progresso dessa passagem vira deslocamento horizontal do
+   trilho.
+
+   Quem converte progresso em deslocamento são DOIS caminhos,
+   nesta ordem de preferência:
+
+     1. CSS puro — `view-timeline` na seção + `animation-timeline`
+        no trilho. A animação roda no compositor, fora da thread
+        principal: nem style recalc nem JS por quadro. É o
+        caminho que garante scroll liso mesmo com o canvas de
+        4746×1983 promovido a camada.
+
+     2. JS (assets/js/desktop.js) — só onde o navegador não tem
+        scroll-driven animations. Escreve `transform` direto no
+        trilho, uma propriedade compositável, num rAF.
+
+   O caminho 1 é escolhido pelo `@supports` abaixo; o JS testa a
+   mesma condição e desliga o rAF quando o CSS já dá conta.
+
+   Como quem rola continua sendo a página nos dois casos, roda do
+   mouse, trackpad, toque com inércia, teclado (Page Down, setas,
+   Home/End) e a barra de rolagem funcionam sozinhos — e o retorno
+   ao fluxo vertical no fim da seção é automático.
+
+   ---------------------------------------------------------
+   DEGRADAÇÃO
+   ---------------------------------------------------------
+   Sem `data-pin="on"` (JS desligado, `prefers-reduced-motion`,
+   tela estreita ou timeline que já cabe na largura) a mesma
+   marcação vira uma janela rolável sobre a timeline. Nenhum
+   conteúdo fica inalcançável em nenhum dos dois modos.
+
+   Depende de modules/timeline-horizontal.css (o `.tlh-canvas`).
+   ============================================================ */
+
+:root {
+  --tlh-scale: 1;        /* escala da timeline; escrita pelo JS       */
+  --dk-pin-x: 0px;       /* deslocamento do trilho (caminho JS)       */
+  --dk-pin-distance: 0px;/* percurso horizontal total, já negativo    */
+  --dk-pin-offset: 0px;  /* centragem vertical da faixa de conteúdo   */
+}
+
+.dk-pin {
+  position: relative;
+  background: var(--fig-bg);
+}
+
+/* ---------- modo base: janela rolável ---------- */
+.dk-pin__viewport {
+  height: min(1983px, 100vh);
+  height: min(1983px, 100svh);
+  overflow: auto;
+
+  /* Só o eixo X é contido. `overscroll-behavior: contain` sem eixo
+     também prende o Y: a roda do mouse sobre a janela parava a
+     página inteira em vez de continuar rolando — travamento real,
+     não teórico. O X segue contido para o fim da timeline não
+     empurrar o histórico de navegação. */
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+}
+
+.dk-pin__track {
+  position: relative;
+  width: calc(4746px * var(--tlh-scale));
+  height: calc(1983px * var(--tlh-scale));
+}
+
+/* O módulo da timeline não sabe que está sendo escalado — quem
+   aplica a escala é o consumidor, aqui. */
+.dk-pin .tlh-canvas {
+  transform: scale(var(--tlh-scale));
+  transform-origin: top left;
+}
+
+/* ---------- modo aprimorado: pin ligado pelo JS ---------- */
+.dk-pin[data-pin="on"] .dk-pin__viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.dk-pin[data-pin="on"] .dk-pin__track {
+  position: absolute;
+  top: var(--dk-pin-offset);
+  left: 0;
+  transform: translate3d(var(--dk-pin-x), 0, 0);
+}
+
+/* Promoção a camada só enquanto a seção está por perto (o JS põe
+   e tira `data-pin-near`). Uma camada de ~6 milhões de pixels
+   segurada a página inteira custa memória de textura e atrapalha
+   justamente o scroll vertical que ela não serve. */
+.dk-pin[data-pin="on"][data-pin-near] .dk-pin__track {
+  will-change: transform;
+}
+
+/* ---------- caminho 1: scroll-driven animation ----------
+   `contain 0% → contain 100%` é exatamente a janela em que o
+   sticky fica preso: começa quando o topo da seção encosta no
+   topo da viewport e termina quando a base dela encosta na base.
+   Mesmo intervalo que o JS calcula, sem JS por quadro. */
+@supports (animation-timeline: view()) and (animation-range: contain) {
+
+  .dk-pin[data-pin="on"] {
+    view-timeline: --dk-pin-progress block;
+  }
+
+  .dk-pin[data-pin="on"] .dk-pin__track {
+    animation-name: dk-pin-pan;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: --dk-pin-progress;
+    animation-range: contain 0% contain 100%;
+    /* o compositor já cuida da promoção; `will-change` fixo aqui
+       só desperdiçaria memória */
+    will-change: auto;
+  }
+
+  @keyframes dk-pin-pan {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(var(--dk-pin-distance), 0, 0); }
+  }
+}
+
+/* Enquanto o pin está ligado a região não é rolável por si só;
+   o foco visível continua valendo para os CTAs lá dentro. */
+.dk-pin__viewport:focus-visible {
+  outline: 2px solid var(--fig-yellow);
+  outline-offset: -4px;
+}

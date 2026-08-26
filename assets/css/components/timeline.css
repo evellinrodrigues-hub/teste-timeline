@@ -1,0 +1,367 @@
+/* ============================================================
+   LINHA DO TEMPO
+
+   Desktop: trilha horizontal rolável. Grid de 3 linhas —
+     linha 1 = meses acima do eixo
+     linha 2 = eixo vermelho (span de todas as colunas)
+     linha 3 = meses abaixo do eixo
+   Cada mês recebe sua coluna via `style="--tl-col: n"` no HTML,
+   o que mantém a ordem do DOM cronológica (bom para leitores de
+   tela) independente de estar acima ou abaixo do eixo.
+
+   Haste + nó + seta são desenhados com pseudo-elementos:
+     .tl-month::before          → haste vertical
+     .tl-month::after           → nó (círculo) sobre o eixo
+     .tl-item__marker::before   → seta apontando para a pílula
+
+   Mobile (<=1024px): a mesma marcação vira uma linha vertical.
+   ============================================================ */
+
+/* ---------- Área rolável ---------- */
+
+.timeline {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding-block: var(--space-lg);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-red) var(--color-surface);
+}
+
+.timeline::-webkit-scrollbar {
+  height: 8px;
+}
+
+.timeline::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+.timeline::-webkit-scrollbar-thumb {
+  background: var(--color-red);
+  border-radius: var(--radius-pill);
+}
+
+.timeline.is-grabbing {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+/* Dica "arraste para o lado" */
+.timeline__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-sm);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--color-text-dim);
+}
+
+.timeline__hint::after {
+  content: "→";
+  animation: tl-nudge 1.6s var(--ease-out) infinite;
+}
+
+@keyframes tl-nudge {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 6px 0; }
+}
+
+/* ---------- Trilha ---------- */
+
+.timeline__track {
+  display: grid;
+  /* ATENÇÃO: a contagem do repeat() NÃO aceita var() — `repeat(var(--n), …)`
+     é inválido e o navegador descarta a declaração inteira, caindo em colunas
+     implícitas auto-dimensionadas. Ao adicionar/remover um mês, edite o número
+     literal abaixo (deve bater com a maior coluna usada no HTML). */
+  grid-template-columns: repeat(7, var(--tl-col-width));
+  grid-template-rows: 1fr var(--tl-axis-thickness) 1fr;
+  column-gap: var(--tl-col-gap);
+  min-width: max-content;
+  padding-inline: var(--container-pad);
+  margin: 0;
+}
+
+/* ---------- Eixo horizontal ---------- */
+
+.timeline__axis {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  position: relative;
+  height: var(--tl-axis-thickness);
+  margin-inline: calc(var(--tl-col-gap) * -0.5);
+  background: var(--color-red);
+}
+
+/* Ponta arredondada no início e no fim do eixo */
+.timeline__axis::before,
+.timeline__axis::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-red);
+}
+
+.timeline__axis::before {
+  left: 0;
+  translate: -50% -50%;
+}
+
+.timeline__axis::after {
+  right: 0;
+  translate: 50% -50%;
+}
+
+/* ---------- Item (mês) ---------- */
+
+.tl-item {
+  position: relative;
+  grid-column: var(--tl-col);
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: center;
+}
+
+.tl-item--above {
+  grid-row: 1;
+  align-self: end;
+  justify-content: flex-end;
+}
+
+.tl-item--below {
+  grid-row: 3;
+  align-self: start;
+  justify-content: flex-start;
+}
+
+/* ---------- Pílula do mês, haste e nó ---------- */
+
+.tl-item__marker {
+  position: relative;
+  width: fit-content;
+  margin-left: var(--tl-rail-inset);
+}
+
+.tl-item--above .tl-item__marker {
+  margin-bottom: var(--tl-stem);
+}
+
+.tl-item--below .tl-item__marker {
+  margin-top: var(--tl-stem);
+}
+
+.tl-month {
+  position: relative;
+  display: inline-block;
+  padding: 0.4em 1.1em;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-extrabold);
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text);
+  border: var(--border-thin) solid var(--color-red);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+}
+
+/* Haste vertical */
+.tl-month::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: var(--tl-axis-thickness);
+  height: var(--tl-stem);
+  background: var(--color-red);
+  translate: -50% 0;
+}
+
+.tl-item--above .tl-month::before { top: 100%; }
+.tl-item--below .tl-month::before { bottom: 100%; }
+
+/* Nó sobre o eixo */
+.tl-month::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: var(--tl-dot);
+  height: var(--tl-dot);
+  border-radius: 50%;
+  background: var(--color-red);
+  translate: -50% -50%;
+}
+
+.tl-item--above .tl-month::after {
+  top: calc(100% + var(--tl-stem) + var(--tl-axis-thickness) / 2);
+}
+
+.tl-item--below .tl-month::after {
+  bottom: calc(100% + var(--tl-stem) + var(--tl-axis-thickness) / 2);
+  translate: -50% 50%;
+}
+
+/* Seta apontando para a pílula */
+.tl-item__marker::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  border-inline: 6px solid transparent;
+  translate: -50% 0;
+}
+
+.tl-item--above .tl-item__marker::before {
+  top: 100%;
+  border-bottom: 9px solid var(--color-red);
+}
+
+.tl-item--below .tl-item__marker::before {
+  bottom: 100%;
+  border-top: 9px solid var(--color-red);
+}
+
+/* ---------- Conteúdo do mês ---------- */
+
+.tl-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.tl-card__title {
+  margin-bottom: var(--space-sm);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-snug);
+  text-transform: uppercase;
+  color: var(--color-red-bright);
+}
+
+.tl-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-loose);
+  color: var(--color-text-muted);
+}
+
+.tl-list > li {
+  position: relative;
+  padding-left: 1.1em;
+}
+
+.tl-list > li::before {
+  content: "";
+  position: absolute;
+  top: 0.72em;
+  left: 0.1em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ============================================================
+   MOBILE / TABLET — a trilha vira vertical
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  :root {
+    --tl-rail-mobile: 2rem;
+  }
+
+  .timeline {
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-block: 0;
+  }
+
+  .timeline__hint {
+    display: none;
+  }
+
+  .timeline__track {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: var(--space-2xl);
+    min-width: 0;
+    max-width: var(--container-narrow);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+    padding-left: calc(var(--container-pad) + var(--tl-rail-mobile));
+  }
+
+  /* Trilho vertical */
+  .timeline__track::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: calc(var(--container-pad) + var(--tl-rail-mobile) / 2);
+    width: var(--tl-axis-thickness);
+    background: var(--color-red);
+    translate: -50% 0;
+  }
+
+  .timeline__axis {
+    display: none;
+  }
+
+  .tl-item.tl-item--above,
+  .tl-item.tl-item--below {
+    grid-column: 1;
+    grid-row: auto;
+    align-self: stretch;
+    justify-content: flex-start;
+  }
+
+  /* Nó sobre o trilho vertical */
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    top: 0.75rem;
+    left: calc(var(--tl-rail-mobile) / -2);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-red);
+    translate: -50% -50%;
+  }
+
+  /* A pílula sempre vem primeiro na leitura vertical */
+  .tl-item--above .tl-item__marker {
+    order: -1;
+  }
+
+  .tl-item__marker,
+  .tl-item--above .tl-item__marker,
+  .tl-item--below .tl-item__marker {
+    margin: 0 0 var(--space-sm);
+  }
+
+  /* Haste, nó no eixo e seta não existem no eixo vertical */
+  .tl-month::before,
+  .tl-month::after,
+  .tl-item__marker::before {
+    content: none;
+    display: none;
+  }
+
+  .tl-card__title {
+    font-size: var(--fs-xl);
+  }
+
+  .tl-list {
+    font-size: var(--fs-sm);
+  }
+}

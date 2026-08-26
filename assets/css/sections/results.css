@@ -1,0 +1,12 @@
+/* ============================================================
+   Seção 6 — Resultados do semestre
+   ============================================================ */
+
+.section--results {
+  background: var(--color-bg);
+}
+
+.section--results .result-grid {
+  max-width: 900px;
+  margin-inline: auto;
+}

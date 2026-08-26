@@ -1,0 +1,83 @@
+/* ============================================================
+   Fotos e colagens
+   No layout do Figma as fotos têm borda vermelha fina e se
+   sobrepõem em pares/trios. A sobreposição é feita com áreas
+   de grid conflitantes — sem posicionamento absoluto.
+   ============================================================ */
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: var(--border-thin) solid var(--color-red);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-surface);
+}
+
+/* ---------- Colagem sobreposta ---------- */
+
+.photo-stack {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin-block: var(--space-md);
+}
+
+/* Duas fotos: a segunda desce e avança para a direita */
+.photo-stack--2 > .photo:nth-child(1) {
+  grid-area: 1 / 1 / 3 / 5;
+  z-index: 1;
+}
+
+.photo-stack--2 > .photo:nth-child(2) {
+  grid-area: 2 / 3 / 4 / 7;
+  z-index: 2;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Três fotos: escadinha */
+.photo-stack--3 > .photo:nth-child(1) {
+  grid-area: 1 / 1 / 3 / 4;
+  z-index: 1;
+}
+
+.photo-stack--3 > .photo:nth-child(2) {
+  grid-area: 2 / 3 / 4 / 6;
+  z-index: 2;
+  box-shadow: var(--shadow-sm);
+}
+
+.photo-stack--3 > .photo:nth-child(3) {
+  grid-area: 3 / 4 / 5 / 7;
+  z-index: 3;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Em telas estreitas a sobreposição vira empilhamento simples */
+@media (max-width: 480px) {
+  .photo-stack {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xs);
+  }
+
+  .photo-stack > .photo {
+    grid-area: auto !important;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Mockup de celular (junho) ---------- */
+
+.tl-phone {
+  margin-block: var(--space-md);
+}
+
+.tl-phone img {
+  width: min(100%, 240px);
+  margin-inline: auto;
+  aspect-ratio: 9 / 19.5;
+  object-fit: cover;
+  border: var(--border-thick) solid var(--color-surface-2);
+  border-radius: 28px;
+  box-shadow: var(--shadow-md);
+  background-color: var(--color-surface);
+}

@@ -1,0 +1,55 @@
+/* ============================================================
+   Card de resultado (seção "Resultados do semestre")
+   Número vermelho de grande porte + legenda discreta.
+   ============================================================ */
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+}
+
+.result-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-md);
+  text-align: center;
+  border-bottom: var(--border-hair) solid var(--color-border);
+}
+
+.result-card--full {
+  grid-column: 1 / -1;
+}
+
+.result-card__value {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-extrabold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  text-transform: uppercase;
+  color: var(--color-red-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.result-card--full .result-card__value {
+  font-size: var(--fs-4xl);
+}
+
+.result-card__label {
+  max-width: 28ch;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-normal);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-text-muted);
+  text-wrap: balance;
+}
+
+@media (max-width: 520px) {
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+}
