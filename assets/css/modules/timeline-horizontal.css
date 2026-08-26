@@ -18,9 +18,15 @@
 /* ============================================================
    1. CANVAS
    ============================================================ */
+/* A largura NÃO é a do frame. Com julho e agosto o frame passou a
+   8225px, mas o desenho termina em 5712 (a ponta do eixo) e o resto
+   é folga que o designer deixou para os nós estacionados fora dos
+   limites. Reproduzir os 8225 acrescentaria ~2200px de preto para
+   rolar. A largura aqui é a ponta do eixo mais os mesmos 230px de
+   respiro que o frame antigo tinha — 4746 com o eixo em 4516. */
 .tlh-canvas {
   position: relative;
-  width: 4746px;
+  width: 5942px;
   height: 1983px;
   overflow: hidden;          /* o frame do Figma recorta o conteúdo */
   background: var(--fig-bg);
@@ -38,7 +44,7 @@
   position: absolute;
   left: 429px;
   top: 981px;
-  width: 4080px;
+  width: 5283px;
   height: 2px;
 }
 
@@ -48,8 +54,16 @@
   height: 38px;
 }
 
+/* Ponta do eixo. Acompanhou o eixo de 4509 para 5712 (o centro do
+   ponto cai sobre o último tracejado).
+
+   Ressalva: na versão atual do Figma as três elipses pequenas que
+   davam origem a este ponto estão OCULTAS — o eixo simplesmente
+   termina. Mantido porque some-lo é remover um elemento existente,
+   o que vai além de acrescentar julho e agosto; deixá-lo em 4502,
+   por outro lado, largaria um ponto solto no meio da linha. */
 .tlh-node--end {
-  left: 4502px;
+  left: 5705px;
   top: 975px;
   width: 14px;
   height: 14px;
@@ -62,7 +76,9 @@
   height: 100%;
 }
 
-/* Nós de 38px — todos na mesma linha (top 963). */
+/* Nós de 38px — todos na mesma linha (top 963).
+   O intervalo entre nós é de ~543px até junho e cai para ~517px
+   em julho e agosto. É assim no Figma; não regularizar. */
 .tlh-node--dez { left:  410px; top: 963px; }
 .tlh-node--jan { left:  951px; top: 963px; }
 .tlh-node--fev { left: 1495px; top: 963px; }
@@ -70,6 +86,8 @@
 .tlh-node--abr { left: 2581px; top: 963px; }
 .tlh-node--mai { left: 3122px; top: 963px; }
 .tlh-node--jun { left: 3665px; top: 963px; }
+.tlh-node--jul { left: 4181px; top: 963px; }
+.tlh-node--ago { left: 4698px; top: 963px; }
 
 /* Hastes tracejadas com seta. O SVG é horizontal com a seta na
    ponta direita; a rotação define para onde ela aponta.
@@ -100,6 +118,8 @@
 .tlh-stem--abr { left: 2600px; top: 982px; }
 .tlh-stem--mai { left: 3141px; top: 877px; }
 .tlh-stem--jun { left: 3684px; top: 982px; }
+.tlh-stem--jul { left: 4200px; top: 877px; }
+.tlh-stem--ago { left: 4717px; top: 982px; }
 
 /* ============================================================
    3. PÍLULA DO MÊS
@@ -135,6 +155,13 @@
 .tlh-month--mai { left: 3033px; top:  806px; }
 .tlh-month--jun { left: 3574px; top: 1110px; }
 
+/* JULHO é o único mês cuja pílula não está centrada no próprio nó:
+   fica 66px à direita dele (nó em 4181, centro da pílula em 4266).
+   Conferido no render do Figma — é o desenho, não um erro de
+   transcrição. Se o design corrigir, o valor certo é 4105. */
+.tlh-month--jul { left: 4162px; top:  806px; }
+.tlh-month--ago { left: 4607px; top: 1110px; }
+
 /* ============================================================
    4. TÍTULO DO MÊS
    ============================================================ */
@@ -155,6 +182,8 @@
 .tlh-title--abr { left: 2501px; top: 1203px; }
 .tlh-title--mai { left: 3052px; top:  195px; }
 .tlh-title--jun { left: 3584px; top: 1204px; }
+.tlh-title--jul { left: 4181px; top:  332px; }
+.tlh-title--ago { left: 4617px; top: 1204px; }
 
 /* ============================================================
    5. CORPO DE TEXTO (listas)
@@ -191,6 +220,8 @@
 .tlh-body--abr { left: 2473px; top: 1307px; width: 443px;     }
 .tlh-body--mai { left: 3025px; top:  300px; width: 451px;     }
 .tlh-body--jun { left: 3556px; top: 1308px; width: 373px;     }
+.tlh-body--jul { left: 4154px; top:  437px; width: 451px;     }
+.tlh-body--ago { left: 4589px; top: 1308px; width: 373px;     }
 
 /* ============================================================
    6. FOTOS (moldura vermelha de 2px, stroke por dentro)
@@ -232,6 +263,14 @@
 .tlh-photo--abr-b { left: 2987px; top: 1198px; width: 369px; height: 246px; }
 .tlh-photo--mai-a { left: 3530px; top:  219px; width: 369px; height: 246px; }
 .tlh-photo--mai-b { left: 3649px; top:  417px; width: 369px; height: 246px; }
+
+/* Julho e agosto repetem o MESMO par de fotos — no Figma são quatro
+   nós distintos (k24–k27) com fills byte a byte idênticos, conferido
+   por hash. Dois arquivos servem os quatro lugares. */
+.tlh-photo--jul-a { left: 4659px; top:  219px; width: 369px; height: 246px; }
+.tlh-photo--jul-b { left: 4778px; top:  417px; width: 369px; height: 246px; }
+.tlh-photo--ago-a { left: 5011px; top: 1198px; width: 369px; height: 246px; }
+.tlh-photo--ago-b { left: 5130px; top: 1396px; width: 369px; height: 246px; }
 
 /* Mockup do Super App — sem moldura. */
 .tlh-mockup {

@@ -29,7 +29,7 @@
   /* Mesmos números de base/tokens.css (--fig-*). Se um mudar lá,
      mude aqui também. */
   var CANVAS_W = 1280;   // frame "Desktop" · node 1:2
-  var TL_W = 4746;       // frame "Timeline horizontal" · node 2001:3
+  var TL_W = 5942;       // canvas da timeline · node 2001:3
   var TL_H = 1983;
 
   var BAND_PAD = 24;     // respiro em volta da faixa de conteúdo

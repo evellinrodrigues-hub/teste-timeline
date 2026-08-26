@@ -10,7 +10,7 @@
 
   ESTRUTURA
     palco de cima   canvas 1280 × 3443   (carta → título da linha)  ↓ vertical
-    seção fixada    canvas 4746 × 1983   (a linha do tempo)         → horizontal
+    seção fixada    canvas 5942 × 1983   (a linha do tempo)         → horizontal
     palco de baixo  canvas 1280 × 2868   (resultados e fechamento)  ↓ vertical
 
   Os palcos são o frame 1:2 recortado; o de baixo está rebaseado
@@ -160,7 +160,7 @@
   </div>
 
   <!-- ============================================================
-       LINHA DO TEMPO — frame 2001:3 (4746 × 1983)
+       LINHA DO TEMPO — frame 2001:3 (canvas 5942 × 1983, dez → ago)
        Seção fixada: o scroll vertical vira horizontal aqui dentro
        e volta a ser vertical no fim. Ver assets/css/desktop/pin.css.
        ============================================================ -->
@@ -169,13 +169,13 @@
          data-pin-viewport
          role="group"
          tabindex="0"
-         aria-label="Linha do tempo do primeiro semestre, de dezembro a junho">
+         aria-label="Linha do tempo da gestão, de dezembro a agosto">
       <div class="dk-pin__track" data-pin-track>
         <div class="tlh-canvas" data-pin-canvas>
 
           <!-- ---------- EIXO ---------- -->
           <div class="tlh-axis" aria-hidden="true">
-            <img src="assets/img/timeline/axis.svg" width="4080" height="2" alt="">
+            <img src="assets/img/timeline/axis.svg" width="5283" height="2" alt="">
           </div>
           <div class="tlh-node tlh-node--end" aria-hidden="true">
             <img src="assets/img/timeline/node-end.svg" width="14" height="14" alt="">
@@ -524,6 +524,97 @@
             <figure class="tlh-mockup">
               <img src="assets/img/timeline/mockup-1.png" width="613" height="617" alt="Tela inicial do Super App do Sport: logo do programa Sócio Maior do Nordeste, aviso de prioridade na compra, cartão do próximo jogo contra o Londrina na Ilha do Retiro e menu com Início, Ingressos, Partidas, Sorteios e MarIA" loading="lazy" decoding="async">
             </figure>
+
+          </article>
+
+          <!-- ---------- JULHO ----------
+               Sem bloco "Resultados programa de sócio": julho e agosto
+               não têm um no protótipo. -->
+          <article class="tlh-month-group" aria-labelledby="mes-jul">
+
+            <div class="tlh-node tlh-node--jul" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--up tlh-stem--jul" aria-hidden="true">
+              <img src="assets/img/timeline/stem-up.svg" width="106" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--jul" id="mes-jul">julho</h3>
+              <h4 class="tlh-title tlh-title--jul">mais forte<br>em cada frente</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--jul">
+              <ul>
+                <li>Reforma do piso do ginásio Marcelino Lopes;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Aniversário da Ilha do Retiro: projeto em parceria com a Chico Rei voltado para homenagear colaboradores com décadas de Sport;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Lançamento da parceria entre o futsal do Sport e Junpe, fornecedora de materiais esportivos;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Realização da 3ª Corrida do Sport, com recorde de inscritos (mais de 5.500).</li>
+              </ul>
+            </div>
+
+            <div class="tlh-photo tlh-photo--jul-a">
+              <img src="assets/img/timeline/foto-k24.jpg" width="369" height="246" alt="Quadra do ginásio com o piso novo em placas azuis, vista do fundo, com as arquibancadas e a estrutura metálica do telhado ao redor" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--jul-b">
+              <img src="assets/img/timeline/foto-k25.jpg" width="369" height="246" alt="Dois atletas do futsal do Sport com o uniforme rubro-negro assinado pela Junpe, com os patrocínios Junpe e Todos no peito" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- AGOSTO ----------
+               As duas fotos são os mesmos arquivos de julho: no Figma
+               são nós distintos com fills idênticos. Ver o comentário
+               em modules/timeline-horizontal.css. -->
+          <article class="tlh-month-group" aria-labelledby="mes-ago">
+
+            <div class="tlh-node tlh-node--ago" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--down tlh-stem--ago" aria-hidden="true">
+              <img src="assets/img/timeline/stem-down.svg" width="93" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--wide tlh-month--ago" id="mes-ago">agosto</h3>
+              <h4 class="tlh-title tlh-title--ago">o clube em<br>movimento</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--ago">
+              <ul>
+                <li>Convocação do auxiliar técnico Vanildo Neto (Seleção Brasileira de Futsal Sub-20);</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Reforma do piso da quadra</li>
+              </ul>
+              <p>      de basquete;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Lançamento de conteúdos</li>
+              </ul>
+              <p>      ao vivo de pré-jogo pela TV Sport</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Transmissão do jogo no telão principal em tempo real</li>
+              </ul>
+            </div>
+
+            <div class="tlh-photo tlh-photo--ago-a">
+              <img src="assets/img/timeline/foto-k24.jpg" width="369" height="246" alt="Quadra do ginásio com o piso novo em placas azuis, vista do fundo, com as arquibancadas e a estrutura metálica do telhado ao redor" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--ago-b">
+              <img src="assets/img/timeline/foto-k25.jpg" width="369" height="246" alt="Dois atletas do futsal do Sport com o uniforme rubro-negro assinado pela Junpe, com os patrocínios Junpe e Todos no peito" loading="lazy" decoding="async">
+            </div>
 
           </article>
 

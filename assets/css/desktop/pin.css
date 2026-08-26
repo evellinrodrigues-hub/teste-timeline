@@ -70,10 +70,13 @@
   overscroll-behavior-y: auto;
 }
 
+/* As medidas vêm dos tokens em vez de literais: acrescentar um mês
+   muda a largura da timeline, e uma cópia esquecida aqui truncaria
+   o trilho sem erro nenhum. */
 .dk-pin__track {
   position: relative;
-  width: calc(4746px * var(--tlh-scale));
-  height: calc(1983px * var(--tlh-scale));
+  width: calc(var(--fig-tl-w) * 1px * var(--tlh-scale));
+  height: calc(var(--fig-tl-h) * 1px * var(--tlh-scale));
 }
 
 /* O módulo da timeline não sabe que está sendo escalado — quem

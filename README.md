@@ -54,14 +54,14 @@ Em 1–2 minutos o site sai em `https://SEU-USUARIO.github.io/sport-timeline/`.
 
 Três coisas que costumam quebrar nessa passagem e que aqui já estão resolvidas:
 
-- **Maiúsculas.** O Windows ignora, o servidor do Pages (Linux) não. As 41
+- **Maiúsculas.** O Windows ignora, o servidor do Pages (Linux) não. As
   referências locais foram checadas uma a uma contra os nomes reais — batem.
 - **Caminhos.** Todos relativos, então funciona na subpasta `/sport-timeline/`
   sem `<base href>`.
 - **Jekyll.** O `.nojekyll` na raiz desliga o processamento e serve os arquivos
   intactos.
 
-Peso: 5,1 MB, maior arquivo 2,1 MB (`fechamento.png`) — folgado nos limites do
+Peso: 5,2 MB, maior arquivo 2,1 MB (`fechamento.png`) — folgado nos limites do
 Pages (100 MB por arquivo, 1 GB no repositório).
 
 ---
@@ -193,12 +193,66 @@ Da linha do tempo especificamente:
 - Único acréscimo ao desenho: `:focus-visible` nos quatro CTAs, que o protótipo
   não especifica.
 
+Três coisas em **julho e agosto** que valem registro, todas conferidas contra o
+render do Figma e não contornadas no código:
+
+- **As quatro fotos são duas.** Julho e agosto usam nós distintos (k24–k27) com
+  fills **byte a byte idênticos** — conferido por hash SHA-256. Dois arquivos
+  servem os quatro lugares. Se agosto for ganhar fotos próprias, é só trocar o
+  `src` dos dois `.tlh-photo--ago-*`.
+- **A pílula de JULHO não está centrada no próprio nó**: fica 66px à direita
+  dele. Todos os outros oito meses estão centrados. Está assim no Figma, então
+  está assim aqui; se o design corrigir, o `left` certo é 4105.
+- **A ponta do eixo.** As elipses pequenas que davam origem ao ponto final estão
+  **ocultas** na versão atual do arquivo — o eixo simplesmente termina. O ponto
+  foi mantido e movido de 4509 para 5712 junto com o eixo: apagá-lo seria
+  remover um elemento existente, e deixá-lo parado largaria um ponto solto no
+  meio da linha. Diga se prefere seguir o Figma e removê-lo.
+
+Julho e agosto **não têm** bloco "Resultados programa de sócio" — o protótipo só
+traz esse bloco de março a junho.
+
 Fundos em `assets/img/desktop/` continuam **PNG** — todos têm canal alfa, e
 converter para JPEG viraria um retângulo preto. `fechamento.png` sozinho pesa
 2,1 MB (reduzido de 6 MB); é o maior arquivo do projeto. Fotos da timeline em
 `assets/img/timeline/`, reduzidas para 2× o tamanho exibido (~2 MB no total;
 os originais somavam 77 MB). `foto-k13` e `foto-k17` ficaram no tamanho nativo
 porque a origem já era menor que 2×.
+
+`foto-k24` (a quadra) saiu do fill original em 738×492, o padrão da pasta.
+`foto-k25` (o uniforme do futsal) é a exceção: o fill é um retrato 3277×4096 e
+o Figma aplica nele um enquadramento próprio, que um `object-fit: cover` erra
+por 16,4%. Ela vem do **export do nó**, recortada nos 2px da moldura, e por
+isso está em 367×244 e não em 2×. Na página a timeline sempre aparece reduzida
+(`--tlh-scale` ≈ 0,48), então 367px ainda é o dobro do tamanho exibido.
+
+---
+
+## ⚠️ Pendente: o Figma mudou mais do que julho e agosto
+
+A entrega atual acrescentou **só** julho e agosto, como pedido. Mas a mesma
+revisão do protótipo reescreveu o texto de **seis meses já publicados**, e isso
+**não** foi aplicado:
+
+| Mês | O que mudou no Figma |
+| --- | --- |
+| dezembro | bloco reescrito: "3 folhas do futebol atrasadas, 40 mil no caixa e a sede inutilizável"; entram "Entrega do novo mastro e bandeirão" e "Revitalização da Ilha do Retiro" |
+| janeiro | entra "Obras nos banheiros da sede" |
+| fevereiro | sem alteração |
+| março | entram "Conquista do 46º título pernambucano do Clube" e "Lançamento dos primeiros uniformes oficiais em parceria com a Kappa (Home e Away 2026)" |
+| abril | entram "Entrega do escudo 3D na Ilha do Retiro" e "Convocação da atleta Mia Hopkins (Seleção Brasileira de Basquete 3x3 Adulta)" |
+| maio | reescrito no trecho do futebol feminino; entram "Entrega do novo parquinho da sede" e as convocações de Pedro Victor e Zé Lucas |
+| junho | reescrito no trecho da sede/CT; entra "Convocação do atleta da base Yan (Seleção Brasileira Sub-15)" |
+
+Aplicar isso muda também a **posição** dos blocos: nos meses acima do eixo o
+texto é ancorado embaixo, então acrescentar um item empurra título e corpo para
+cima. As coordenadas dos seis meses teriam de ser relidas do Dev Mode, não só o
+texto.
+
+Vale checar duas outras coisas antes de publicar: o `<title>` e a descrição
+ainda dizem **"1º Semestre"**, e a linha do tempo agora vai até agosto; e o
+título da seção no frame `Desktop` continua "A TRANSFORMAÇÃO CHEGA À ILHA E AO
+TORCEDOR".
 
 ---
 
@@ -294,11 +348,19 @@ o topo de `assets/js/desktop.js`:
 
 ```
 1280   largura do frame "Desktop"
-4746   largura do frame "Timeline horizontal"
-1983   altura  do frame "Timeline horizontal"
+5942   largura do canvas da timeline
+1983   altura  do canvas da timeline
 ```
 
-Mudou o frame no Figma? Atualize os dois lados.
+Mudou o frame no Figma? Atualize os dois lados. (O CSS do pin lê os tokens,
+então só existem esses dois pontos de verdade.)
+
+**5942 não é a largura do frame.** Com julho e agosto o frame passou a
+8225 × 2150, mas o desenho termina em 5712 — a ponta do eixo — e o resto é
+folga que o designer deixou para os nós estacionados fora dos limites.
+Reproduzir os 8225 acrescentaria ~2200px de preto para rolar. O valor aqui é
+a ponta do eixo mais os mesmos 230px de respiro que o frame antigo tinha
+(4746, com o eixo terminando em 4516).
 
 ### Tipografia
 
@@ -309,13 +371,23 @@ baixe os `.woff2`, coloque em `assets/fonts/` e troque o `<link>` do
 ### Adicionar um mês na linha do tempo
 
 Todo o desenho está em `modules/timeline-horizontal.css`, agrupado por mês e em
-coordenadas absolutas do frame. Um mês novo é: um `<article class="tlh-month-group">`
-no HTML, um bloco de coordenadas na folha, e o `left` do `.tlh-node--end` e a
-`width` do `.tlh-axis` estendidos até a nova ponta. O canvas (`4746px`) cresce
-junto — e como ele é a largura do frame, atualize também `TL_W` no
-`desktop.js`. O percurso horizontal se recalcula sozinho a partir daí.
+coordenadas absolutas. Foi este o caminho para julho e agosto:
 
-A ordem do DOM é sempre cronológica (dez → jun) independente do lado do eixo.
+1. **Converter as coordenadas.** O Figma reposiciona o desenho inteiro quando o
+   frame cresce. Entre a versão de junho e a de agosto tudo andou **+324px em x
+   e +133px em y** — confira o deslocamento em um mês cujo texto *não* mudou
+   (fevereiro serviu) antes de confiar nele, e subtraia dos valores novos.
+2. Um `<article class="tlh-month-group">` no HTML, na ordem cronológica.
+3. Um bloco de coordenadas na folha (nó, haste, pílula, título, corpo, fotos).
+4. Estender a `width` do `.tlh-axis` e o `left` do `.tlh-node--end`, e **regerar
+   `assets/img/timeline/axis.svg` na largura nova** — ele tem
+   `preserveAspectRatio="none"`, então esticar o mesmo arquivo deformaria os
+   tracejados em vez de acrescentar tracejados.
+5. Atualizar `--fig-tl-w` em `tokens.css` e `TL_W` em `desktop.js`.
+
+O percurso horizontal se recalcula sozinho a partir daí.
+
+A ordem do DOM é sempre cronológica (dez → ago) independente do lado do eixo.
 Isso mantém a leitura correta em leitor de tela e em navegação por teclado.
 
 ---
