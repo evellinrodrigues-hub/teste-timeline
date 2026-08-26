@@ -1,0 +1,178 @@
+/* ============================================================
+   DESKTOP · A ILHA QUE O TORCEDOR MERECE
+   Frame do Figma "Desktop V. ATUAL" · node-id 2096:128,
+   faixa y 5322 → 7479 (o palco `.dk-stage--ilha`).
+
+   Todo left/top/width/height é valor absoluto do Dev Mode
+   REBASEADO EM −5322px — o y do Figma vem anotado ao lado de
+   cada bloco. Não arredondar sem conferir no Figma.
+
+   A seção é uma grade de comparações antes/depois: treze itens
+   com rótulo, duas fotos separadas por um "x" e uma pílula de
+   estado sob cada foto.
+
+   ---------------------------------------------------------
+   POR QUE UM ITEM É UM BLOCO POSICIONADO, E NÃO 78 REGRAS
+   ---------------------------------------------------------
+   Conferidas uma a uma no Dev Mode, as distâncias INTERNAS de
+   um item (rótulo → foto → "x" → pílula) são idênticas nos
+   treze — variam no quarto decimal. Só a origem muda. Então o
+   item vira a referência de posicionamento e o desenho interno
+   é escrito uma vez só; cada modificador carrega apenas o par
+   (left, top) que sai do Figma.
+
+   A única exceção medida é a linha do salão social / sede, em
+   que as pílulas ficam ~2,8px mais altas. Ela ajusta
+   `--dk-ilha-tag-y` e nada mais.
+   ============================================================ */
+
+/* ============================================================
+   1. TÍTULO E LINHA DE APOIO
+   ============================================================ */
+.dk-ilha-title {
+  position: absolute;
+  left: 230px;              /* centro 640 − 820/2 */
+  top: 200px;               /* Figma y 5522 */
+  width: 820px;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dk-ilha-lede {
+  position: absolute;
+  left: 304px;
+  top: 412px;               /* Figma y 5734 */
+  width: 671px;
+  margin: 0;
+  color: var(--fig-body);
+  font-size: 18.688px;
+  font-weight: 500;
+  line-height: 1.24;
+  text-align: center;
+}
+
+/* ============================================================
+   2. O ITEM DE COMPARAÇÃO
+
+   Origem no canto superior esquerdo do RÓTULO (que é também a
+   borda esquerda da primeira foto — menos no Marcelino Lopes,
+   ver o modificador). Tudo lá dentro é relativo a ela.
+   ============================================================ */
+.dk-ilha-item {
+  position: absolute;
+  width: 454.2241px;        /* 254.9283 + 199.2958 — as duas fotos */
+  height: 191.9625px;       /* até a base da pílula                */
+  margin: 0;
+
+  --dk-ilha-tag-y: 169.4px;
+}
+
+.dk-ilha-item__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  color: var(--fig-yellow);
+  font-size: 26.997px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* O "x" entre as duas fotos: separador visual, não conteúdo. */
+.dk-ilha-item__x {
+  position: absolute;
+  left: 217.3257px;
+  top: 92.4644px;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 26.997px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/* ---------- fotos ----------
+   A moldura vermelha de 1,35px NÃO é desenhada em CSS: ela já
+   vem no export do nó (o Figma exporta o traço meio para fora,
+   daí os 402×269 de arquivo para uma caixa de 199,3×132,8).
+   Repetir a borda aqui a dobraria. É a diferença para as fotos
+   da timeline, cujos arquivos vêm recortados na moldura. */
+.dk-ilha-item__shot {
+  position: absolute;
+  top: 47.92px;
+  width: 199.2958px;
+  height: 132.8314px;
+  overflow: hidden;
+}
+
+.dk-ilha-item__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dk-ilha-item__shot--a { left: 0; }
+.dk-ilha-item__shot--b { left: 254.9283px; }
+
+/* ---------- pílula de estado ----------
+   No Figma "antes" é um retângulo arredondado e as outras duas
+   são vetores — mas os três têm o mesmo raio (4,05) e o mesmo
+   preenchimento. Um só bloco em CSS dá conta; nenhum SVG. */
+.dk-ilha-item__tag {
+  position: absolute;
+  top: var(--dk-ilha-tag-y);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border-radius: 4.0495px;
+  background: var(--fig-red);
+  color: var(--fig-yellow);
+  font-size: 16.198px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dk-ilha-item__tag--antes     { left:  69.5172px; width:  67.1727px; height: 22.2725px; }
+.dk-ilha-item__tag--depois    { left: 314.0175px; width:  79.4279px; height: 23.0895px; }
+
+/* "em andamento" é mais larga e recentra sob a mesma foto. */
+.dk-ilha-item__tag--andamento-a { left:  23px;      width: 154.8951px; height: 22.2725px; }
+.dk-ilha-item__tag--andamento-b { left: 276.7190px; width: 154.8951px; height: 22.2725px; }
+
+/* ============================================================
+   3. AS TREZE ORIGENS
+   Coluna esquerda em x 158, direita em 668; o Marcelino Lopes
+   fecha a grade sozinho, centrado.
+   ============================================================ */
+.dk-ilha-item--telao      { left: 158px; top:  593px;      }   /* Figma y 5915      */
+.dk-ilha-item--loja       { left: 668px; top:  593px;      }
+.dk-ilha-item--bares      { left: 158px; top:  810.9648px; }   /* 6132.9648         */
+.dk-ilha-item--parquinho  { left: 668px; top:  810.9648px; }
+.dk-ilha-item--salao      { left: 158px; top: 1029.8535px; }   /* 6351.8535         */
+.dk-ilha-item--sede       { left: 668px; top: 1029.8535px; }
+.dk-ilha-item--escudo     { left: 158px; top: 1245.9717px; }   /* 6567.9717         */
+.dk-ilha-item--campo      { left: 668px; top: 1245.9717px; }
+.dk-ilha-item--banheiros  { left: 158px; top: 1455px;      }   /* 6777              */
+.dk-ilha-item--mastro     { left: 668px; top: 1455px;      }
+.dk-ilha-item--sportzone  { left: 158px; top: 1676px;      }   /* 6998              */
+.dk-ilha-item--jorge      { left: 668px; top: 1676px;      }
+.dk-ilha-item--marcelino  { left: 413px; top: 1897px;      }   /* 7219              */
+
+/* Única linha em que as pílulas não caem na altura padrão. */
+.dk-ilha-item--salao,
+.dk-ilha-item--sede { --dk-ilha-tag-y: 166.5px; }
+
+/* Único rótulo que não nasce na borda da primeira foto: sem par
+   ao lado, ele é centrado sobre as duas (Figma x 459). */
+.dk-ilha-item--marcelino .dk-ilha-item__label { left: 46px; }

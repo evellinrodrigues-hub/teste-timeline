@@ -28,8 +28,8 @@
 
   /* Mesmos números de base/tokens.css (--fig-*). Se um mudar lá,
      mude aqui também. */
-  var CANVAS_W = 1280;   // frame "Desktop" · node 1:2
-  var TL_W = 5942;       // canvas da timeline · node 2001:3
+  var CANVAS_W = 1280;   // frame "Desktop V. ATUAL" · node 2096:128
+  var TL_W = 5845;       // canvas da timeline · node 2001:3
   var TL_H = 1983;
 
   var BAND_PAD = 24;     // respiro em volta da faixa de conteúdo
@@ -217,9 +217,13 @@
    * As fotos da timeline nascem `loading="lazy"`, mas dentro do
    * pin elas só entrariam na viewport quando o trilho já as
    * tivesse trazido — carregando e decodificando NO MEIO do
-   * percurso, que é exatamente onde um engasgo aparece. Antecipar
-   * a carga resolve sem penalizar o carregamento inicial da
-   * página: quem está lendo a carta ainda não baixou nada disso.
+   * percurso, que é exatamente onde um engasgo aparece. As 26
+   * fotos da grade antes/depois têm o mesmo problema na outra
+   * ponta: elas entram na tela no instante em que o pin solta, e
+   * decodificar tudo ali daria um solavanco na volta ao scroll
+   * vertical. Antecipar as duas levas resolve sem penalizar o
+   * carregamento inicial: quem está lendo a carta ainda não
+   * baixou nada disso.
    *
    * O `will-change` (ver applyNear) segue a mesma lógica: promover
    * o trilho a camada é útil durante o percurso e desperdício fora
@@ -229,18 +233,25 @@
     if (!pin || !('IntersectionObserver' in window)) return;
 
     var warmed = false;
+    // o palco que vem logo depois do pin; nada quebra se não houver
+    var after = pin.nextElementSibling;
 
     new IntersectionObserver(function (entries) {
       near = entries[0].isIntersecting;
 
       if (near && !warmed) {
         warmed = true;
-        var imgs = track.querySelectorAll('img[loading="lazy"]');
-        for (var i = 0; i < imgs.length; i++) imgs[i].loading = 'eager';
+        warm(track);
+        if (after) warm(after);
       }
 
       applyNear();
     }, { rootMargin: '150% 0px' }).observe(pin);
+  }
+
+  function warm(root) {
+    var imgs = root.querySelectorAll('img[loading="lazy"]');
+    for (var i = 0; i < imgs.length; i++) imgs[i].loading = 'eager';
   }
 
   if (!cssDriven) {

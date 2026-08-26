@@ -235,10 +235,6 @@
 
 .dk-footnote {
   position: absolute;
-  left: 421px;
-  top: 2836px;
-  width: 438px;
-  height: 24px;
   margin: 0;
   color: var(--fig-yellow);
   font-size: 13px;
@@ -247,6 +243,9 @@
   text-align: center;
   text-transform: capitalize;
 }
+
+.dk-footnote--num { left: 421px; top: 2836px; width: 438px; height: 24px; }
+.dk-footnote--res { left: 416px; top: 1339px; width: 447px; height: 13px; }  /* Figma y 9515 */
 
 /* ============================================================
    6. TÍTULO DA LINHA DO TEMPO
@@ -311,9 +310,9 @@
 .dk-result-label--10k  { left: 742px; top:  486px; width: 238px; }   /* 8662 */
 .dk-result-label--24k  { left: 282px; top:  733px; width: 274px; }   /* 8909 */
 .dk-result-label--9k   { left: 767px; top:  725px; width: 188px; }   /* 8901 */
-.dk-result-label--569m { left: 569px; top:  987px; width: 142px; }   /* 9163 */
+.dk-result-label--569m { left: 496px; top:  987px; width: 287px; }   /* 9163 */
 .dk-result-label--top  { left: 234px; top: 1214px; width: 375px; }   /* 9390 */
-.dk-result-label--65   { left: 761px; top: 1223px; width: 199px; }   /* 9399 */
+.dk-result-label--65   { left: 762px; top: 1214px; width: 193px; }   /* 9390 */
 
 /* ============================================================
    8. FECHAMENTO                 (palco de baixo, y − 8176)

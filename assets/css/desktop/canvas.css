@@ -55,10 +55,24 @@
   transform-origin: top center;
 }
 
-/* Alturas recortadas do frame original:
+/* Alturas recortadas do frame:
    topo    0 → 3443   (carta, hero, organograma, números, título da linha)
-   base 8176 → 11044  (resultados e fechamento, rebaseados em −8176) */
+   ilha 5322 → 7479   (a grade antes/depois, rebaseada em −5322)
+   base 8176 → 11044  (resultados e fechamento, rebaseados em −8176)
+
+   O palco do meio veio com a revisão "Desktop V. ATUAL"
+   (node 2096:128) e entra DEPOIS da seção fixada da linha do
+   tempo — é onde, no frame, a linha do tempo vertical acabava.
+   O corte 5322/7479 dá os mesmos 200px de entrada e os 275px de
+   saída até "RESULTADOS DO SEMESTRE" que o Figma tem.
+
+   As coordenadas do palco de baixo continuam nas do frame
+   antigo (1:2). Na revisão nova aquele bloco inteiro subiu
+   −697px em bloco, sem mudar nada relativo: como o palco é um
+   recorte fechado, rebasear de novo só trocaria os números por
+   outros equivalentes. */
 .dk-stage--top    { --dk-stage-h: 3443px; }
+.dk-stage--ilha   { --dk-stage-h: 2157px; }
 .dk-stage--bottom { --dk-stage-h: 2868px; }
 
 /* ============================================================

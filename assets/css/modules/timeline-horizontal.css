@@ -3,9 +3,18 @@
    Reprodução 1:1 do frame do Figma "Timeline horizontal"
    node-id 2001:3 · Site-sport-timeline-horizontal (pbginA9oIVfWl4W9JVCtvb)
 
-   Canvas: 4746 × 1983 px. Origem no canto superior esquerdo do
-   frame. Todo left/top/width/height abaixo é o valor absoluto
-   lido do Dev Mode — não arredondar sem conferir no Figma.
+   Canvas: 5845 × 1983 px. Todo left/top/width/height abaixo é o
+   valor do Dev Mode DESLOCADO EM +61px em x e −110px em y — não
+   arredondar sem conferir no Figma.
+
+   O deslocamento é a herança de uma revisão do protótipo: entre
+   a versão transcrita aqui e a atual o Figma reposicionou o
+   desenho inteiro dentro do frame, sem mexer em nada relativo.
+   Conferido nos nove nós do eixo, que andaram exatamente
+   (−61, +110) e continuam onde estavam nesta folha. Rebasear
+   trocaria uma centena de números por outros equivalentes, sem
+   ganho na tela; ao ler um valor novo no Dev Mode, some 61 ao x
+   e subtraia 110 do y.
 
    Namespace `tlh-`. O módulo não sabe onde está montado: serve
    tanto a página avulsa (timeline-horizontal.html, canvas solto)
@@ -18,15 +27,14 @@
 /* ============================================================
    1. CANVAS
    ============================================================ */
-/* A largura NÃO é a do frame. Com julho e agosto o frame passou a
-   8225px, mas o desenho termina em 5712 (a ponta do eixo) e o resto
-   é folga que o designer deixou para os nós estacionados fora dos
-   limites. Reproduzir os 8225 acrescentaria ~2200px de preto para
-   rolar. A largura aqui é a ponta do eixo mais os mesmos 230px de
-   respiro que o frame antigo tinha — 4746 com o eixo em 4516. */
+/* A largura é a ponta do eixo (5623, contando o ponto final) mais
+   os mesmos ~230px de respiro que o frame tinha quando ia só até
+   junho. Os nós que o designer estaciona FORA dos limites — o
+   título "Gestão em números", a nota de rodapé e quatro fotos
+   duplicadas — ficam de fora: o próprio Figma os recorta. */
 .tlh-canvas {
   position: relative;
-  width: 5942px;
+  width: 5845px;
   height: 1983px;
   overflow: hidden;          /* o frame do Figma recorta o conteúdo */
   background: var(--fig-bg);
@@ -44,7 +52,7 @@
   position: absolute;
   left: 429px;
   top: 981px;
-  width: 5283px;
+  width: 5186px;
   height: 2px;
 }
 
@@ -54,19 +62,14 @@
   height: 38px;
 }
 
-/* Ponta do eixo. Acompanhou o eixo de 4509 para 5712 (o centro do
-   ponto cai sobre o último tracejado).
-
-   Ressalva: na versão atual do Figma as três elipses pequenas que
-   davam origem a este ponto estão OCULTAS — o eixo simplesmente
-   termina. Mantido porque some-lo é remover um elemento existente,
-   o que vai além de acrescentar julho e agosto; deixá-lo em 4502,
-   por outro lado, largaria um ponto solto no meio da linha. */
+/* Ponta do eixo (Ellipse 15). A ressalva das versões anteriores
+   caiu: o ponto voltou a ser um nó visível no arquivo, agora com
+   16px, e o centro dele cai sobre o fim do eixo (429 + 5186). */
 .tlh-node--end {
-  left: 5705px;
-  top: 975px;
-  width: 14px;
-  height: 14px;
+  left: 5607px;
+  top: 974px;
+  width: 16px;
+  height: 16px;
 }
 
 .tlh-axis img,
@@ -175,14 +178,18 @@
   text-transform: uppercase;
 }
 
+/* Acima do eixo o bloco é ancorado EMBAIXO: cada item novo no
+   corpo empurra título e texto para cima. É por isso que os
+   quatro meses de cima (jan, mar, mai, jul) mudaram de altura
+   na revisão e os de baixo não. */
 .tlh-title--dez { left:  327px; top: 1178px; }
-.tlh-title--jan { left:  880px; top:  219px; }
+.tlh-title--jan { left:  880px; top:   58px; }
 .tlh-title--fev { left: 1412px; top: 1178px; }
-.tlh-title--mar { left: 1965px; top:  337px; }
+.tlh-title--mar { left: 1965px; top:   29px; }
 .tlh-title--abr { left: 2501px; top: 1203px; }
-.tlh-title--mai { left: 3052px; top:  195px; }
+.tlh-title--mai { left: 3052px; top:   46px; }
 .tlh-title--jun { left: 3584px; top: 1204px; }
-.tlh-title--jul { left: 4181px; top:  332px; }
+.tlh-title--jul { left: 4181px; top:  271px; }
 .tlh-title--ago { left: 4617px; top: 1204px; }
 
 /* ============================================================
@@ -213,15 +220,30 @@
   white-space: pre-wrap;     /* preserva o recuo manual do Figma */
 }
 
-.tlh-body--dez { left:  299px; top: 1282px; width: 443px;     }
-.tlh-body--jan { left:  853px; top:  324px; width: 442.664px; }
-.tlh-body--fev { left: 1384px; top: 1282px; width: 443px;     }
-.tlh-body--mar { left: 1938px; top:  442px; width: 477px;     }
-.tlh-body--abr { left: 2473px; top: 1307px; width: 443px;     }
-.tlh-body--mai { left: 3025px; top:  300px; width: 451px;     }
-.tlh-body--jun { left: 3556px; top: 1308px; width: 373px;     }
-.tlh-body--jul { left: 4154px; top:  437px; width: 451px;     }
-.tlh-body--ago { left: 4589px; top: 1308px; width: 373px;     }
+.tlh-body--dez { left:  315px; top: 1282px; width: 408px; }
+.tlh-body--jan { left:  853px; top:  163px; width: 443px; }
+.tlh-body--fev { left: 1402px; top: 1282px; width: 459px; }
+.tlh-body--mar { left: 1938px; top:  134px; width: 477px; }
+.tlh-body--abr { left: 2489px; top: 1303px; width: 443px; }
+.tlh-body--mai { left: 3025px; top:  151px; width: 451px; }
+.tlh-body--jun { left: 3573px; top: 1308px; width: 373px; }
+.tlh-body--jul { left: 4167px; top:  376px; width: 451px; }
+.tlh-body--ago { left: 4602px; top: 1308px; width: 373px; }
+
+/* A nota que fecha agosto não é um item da lista: é um recado
+   solto ao lado da foto, com a mesma tipografia do corpo. */
+.tlh-note {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-body);
+  font-size: 18.688px;
+  font-weight: 500;
+  line-height: 1.24;
+}
+
+.tlh-note p { margin: 0; }
+
+.tlh-note--ago { left: 5031px; top: 1561px; width: 423px; }
 
 /* ============================================================
    6. FOTOS (moldura vermelha de 2px, stroke por dentro)
@@ -232,27 +254,46 @@
   border: 2px solid var(--fig-red);
 }
 
+/* ENQUADRAMENTO DO FILL
+   Por padrão a foto preenche a moldura e o corte fica por conta do
+   `cover` — que é o que o Figma faz na maioria dos nós.
+
+   Em seis deles o designer arrastou e ampliou o fill dentro da
+   moldura, e aí `cover` erraria o corte. Nesses casos a <img> vira
+   uma caixa posicionada em PORCENTAGEM da área interna do nó (a
+   moldura de 2px já descontada, que é exatamente a referência que
+   o Dev Mode usa) e os quatro valores saem de lá sem conversão.
+
+   Um rótulo só, com padrões: quem não declara as variáveis cai no
+   comportamento de antes. */
 .tlh-photo img {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Único enquadramento fora do padrão: no Figma o fill desta
-   foto está deslocado e ampliado dentro da moldura. */
-.tlh-photo--offset img {
   position: absolute;
-  left: -20.65%;
-  top: 0.02%;
-  width: 127.35%;
-  height: 127.36%;
+  left:   var(--tlh-crop-x, 0);
+  top:    var(--tlh-crop-y, 0);
+  width:  var(--tlh-crop-w, 100%);
+  height: var(--tlh-crop-h, 100%);
   max-width: none;
-  object-fit: fill;
+  object-fit: var(--tlh-crop-fit, cover);
 }
 
-.tlh-photo--dez-a { left:  804px; top: 1203px; width: 369px; height: 246px; }
-.tlh-photo--dez-b { left:  923px; top: 1401px; width: 369px; height: 246px; }
+/* Os seis enquadramentos próprios, na ordem do calendário. */
+.tlh-photo--jan-a,
+.tlh-photo--jan-b,
+.tlh-photo--abr-a,
+.tlh-photo--abr-b,
+.tlh-photo--jul-b,
+.tlh-photo--ago { --tlh-crop-fit: fill; }
+
+.tlh-photo--jan-a { --tlh-crop-x: -23.36%; --tlh-crop-y: -11.13%; --tlh-crop-w: 123.35%; --tlh-crop-h: 138.76%; }
+.tlh-photo--jan-b { --tlh-crop-x: -14.51%; --tlh-crop-y: -19.09%; --tlh-crop-w: 138.48%; --tlh-crop-h: 138.5%;  }
+.tlh-photo--abr-a { --tlh-crop-x:  -0.07%; --tlh-crop-y:   2.86%; --tlh-crop-w: 100%;    --tlh-crop-h: 112.5%;  }
+.tlh-photo--abr-b { --tlh-crop-x:   0.1%;  --tlh-crop-y: -66.92%; --tlh-crop-w: 100%;    --tlh-crop-h: 187.5%;  }
+.tlh-photo--jul-b { --tlh-crop-x:  -7.23%; --tlh-crop-y: -62.54%; --tlh-crop-w: 128.19%; --tlh-crop-h: 240.35%; }
+.tlh-photo--ago   { --tlh-crop-x:  -0.12%; --tlh-crop-y: -30.04%; --tlh-crop-w: 100%;    --tlh-crop-h: 181.92%; }
+
+.tlh-photo--dez-a { left:  850px; top: 1204px; width: 369px; height: 246px; }
+.tlh-photo--dez-b { left:  915px; top: 1421px; width: 369px; height: 246px; }
 .tlh-photo--jan-a { left: 1326px; top:  281px; width: 369px; height: 246px; }
 .tlh-photo--jan-b { left: 1445px; top:  479px; width: 369px; height: 246px; }
 .tlh-photo--fev-a { left: 2040px; top: 1422px; width: 369px; height: 246px; }
@@ -264,18 +305,17 @@
 .tlh-photo--mai-a { left: 3530px; top:  219px; width: 369px; height: 246px; }
 .tlh-photo--mai-b { left: 3649px; top:  417px; width: 369px; height: 246px; }
 
-/* Julho e agosto repetem o MESMO par de fotos — no Figma são quatro
-   nós distintos (k24–k27) com fills byte a byte idênticos, conferido
-   por hash. Dois arquivos servem os quatro lugares. */
-.tlh-photo--jul-a { left: 4659px; top:  219px; width: 369px; height: 246px; }
-.tlh-photo--jul-b { left: 4778px; top:  417px; width: 369px; height: 246px; }
-.tlh-photo--ago-a { left: 5011px; top: 1198px; width: 369px; height: 246px; }
-.tlh-photo--ago-b { left: 5130px; top: 1396px; width: 369px; height: 246px; }
+.tlh-photo--jul-a { left: 4659px; top:  232px; width: 369px; height: 246px; }
+.tlh-photo--jul-b { left: 4778px; top:  430px; width: 369px; height: 246px; }
+
+/* Agosto trocou o par de fotos (que repetia as de julho) por uma
+   só, maior e em pé — o telão com o placar. */
+.tlh-photo--ago   { left: 5031px; top: 1220px; width: 470px; height: 313px; }
 
 /* Mockup do Super App — sem moldura. */
 .tlh-mockup {
   position: absolute;
-  left: 3927px;
+  left: 3946px;
   top: 1061px;
   width: 613px;
   height: 617px;
@@ -324,7 +364,8 @@
   text-align: center;
 }
 
-.tlh-socio-box--mai p { width: 405px; }
+.tlh-socio-box--mai p,
+.tlh-socio-box--jul p { width: 405px; }
 
 .tlh-cta {
   position: absolute;
@@ -353,17 +394,23 @@
 .tlh-socio-box--mar   { left: 2475px; top:  784px; width: 414px; height: 52px; }
 .tlh-cta--mar         { left: 2526px; top:  845px; width: 312px; height: 32px; }
 
-.tlh-socio-label--abr { left: 2565px; top: 1620px; width: 293px; }
-.tlh-socio-box--abr   { left: 2501px; top: 1649px; width: 422px; height: 62px; }
-.tlh-cta--abr         { left: 2553px; top: 1722px; width: 318px; height: 38px; }
+.tlh-socio-label--abr { left: 2581px; top: 1696px; width: 293px; }
+.tlh-socio-box--abr   { left: 2517px; top: 1725px; width: 422px; height: 62px; }
+.tlh-cta--abr         { left: 2569px; top: 1798px; width: 318px; height: 38px; }
 
 .tlh-socio-label--mai { left: 3594px; top:  712px; width: 293px; }
 .tlh-socio-box--mai   { left: 3530px; top:  741px; width: 439px; height: 62px; }
 .tlh-cta--mai         { left: 3582px; top:  814px; width: 318px; height: 38px; }
 
-.tlh-socio-label--jun { left: 4078px; top: 1692px; width: 293px; }
-.tlh-socio-box--jun   { left: 4014px; top: 1721px; width: 422px; height: 62px; }
-.tlh-cta--jun         { left: 4066px; top: 1794px; width: 318px; height: 38px; }
+.tlh-socio-label--jun { left: 4097px; top: 1692px; width: 293px; }
+.tlh-socio-box--jun   { left: 4033px; top: 1721px; width: 422px; height: 62px; }
+.tlh-cta--jun         { left: 4085px; top: 1794px; width: 318px; height: 38px; }
+
+/* Julho ganhou bloco de sócio na revisão; agosto segue sem um,
+   e no lugar traz a nota de `.tlh-note--ago`. */
+.tlh-socio-label--jul { left: 4758px; top:  712px; width: 293px; }
+.tlh-socio-box--jul   { left: 4694px; top:  741px; width: 439px; height: 62px; }
+.tlh-cta--jul         { left: 4746px; top:  814px; width: 318px; height: 38px; }
 
 /* ============================================================
    8. FOCO VISÍVEL

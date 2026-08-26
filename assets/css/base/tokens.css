@@ -31,11 +31,11 @@
 
   /* Geometria dos frames, em px sem unidade — o JS lê estes mesmos
      números; mantenha os dois lados em sincronia. */
-  --fig-desktop-w: 1280;   /* frame "Desktop" · node 1:2            */
-  --fig-tl-w: 5942;        /* canvas da timeline · node 2001:3      */
+  --fig-desktop-w: 1280;   /* frame "Desktop V. ATUAL" · 2096:128   */
+  --fig-tl-w: 5845;        /* canvas da timeline · node 2001:3      */
   --fig-tl-h: 1983;
-  /* --fig-tl-w NÃO é a largura do frame (8225): é a do desenho mais
-     o respiro à direita. Ver o comentário em
+  /* --fig-tl-w NÃO é a largura do frame: é a do desenho mais o
+     respiro à direita. Ver o comentário em
      modules/timeline-horizontal.css. */
 
   /* ---------- Cores: texto ---------- */

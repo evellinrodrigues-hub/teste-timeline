@@ -18,7 +18,7 @@
         no trilho. A animação roda no compositor, fora da thread
         principal: nem style recalc nem JS por quadro. É o
         caminho que garante scroll liso mesmo com o canvas de
-        4746×1983 promovido a camada.
+        5845×1983 promovido a camada.
 
      2. JS (assets/js/desktop.js) — só onde o navegador não tem
         scroll-driven animations. Escreve `transform` direto no

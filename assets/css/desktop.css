@@ -1,10 +1,10 @@
 /* ============================================================
    DESKTOP — índice de imports (ordem da cascata)
 
-   Reprodução 1:1 do frame do Figma "Desktop" (node 1:2), com a
-   linha do tempo horizontal (node 2001:3) embutida como seção
-   fixada. A página é autossuficiente: tudo o que ela precisa
-   está nesta cadeia.
+   Reprodução 1:1 do frame do Figma "Desktop V. ATUAL"
+   (node 2096:128), com a linha do tempo horizontal (node 2001:3)
+   embutida como seção fixada. A página é autossuficiente: tudo o
+   que ela precisa está nesta cadeia.
 
    NÃO importa main.css de propósito — as regras fluidas do site
    responsivo brigariam com a fidelidade pixel a pixel.
@@ -17,4 +17,5 @@
 
 @import url("desktop/canvas.css");
 @import url("desktop/sections.css");
+@import url("desktop/ilha.css");
 @import url("desktop/pin.css");

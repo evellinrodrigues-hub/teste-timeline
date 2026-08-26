@@ -7,8 +7,8 @@ Os dois frames do protótipo vivem numa **página só**, o `index.html`:
 
 | Frame do Figma | Onde entra | Como rola |
 | --- | --- | --- |
-| `Desktop` · [node 1:2](https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal?node-id=1-2&m=dev) | palco de cima e palco de baixo | vertical |
-| `Timeline horizontal` · [node 2001:3](https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal?node-id=2001-3&m=dev) | seção do meio, no lugar da linha do tempo vertical do frame 1:2 | horizontal |
+| `Desktop V. ATUAL` · [node 2096:128](https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal?node-id=2096-128&m=dev) | palcos de cima, do meio e de baixo | vertical |
+| `Timeline horizontal` · [node 2001:3](https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal?node-id=2001-3&m=dev) | seção fixada, no lugar da linha do tempo vertical do frame do desktop | horizontal |
 
 Sem build, sem framework, sem dependências. Abra o `index.html` e funciona.
 
@@ -61,7 +61,7 @@ Três coisas que costumam quebrar nessa passagem e que aqui já estão resolvida
 - **Jekyll.** O `.nojekyll` na raiz desliga o processamento e serve os arquivos
   intactos.
 
-Peso: 5,2 MB, maior arquivo 2,1 MB (`fechamento.png`) — folgado nos limites do
+Peso: 8,8 MB, maior arquivo 2,1 MB (`fechamento.png`) — folgado nos limites do
 Pages (100 MB por arquivo, 1 GB no repositório).
 
 ---
@@ -108,11 +108,13 @@ Quatro decisões, todas comentadas no código:
    degradação a timeline é uma janela rolável; conter os dois eixos fazia a
    roda do mouse sobre ela **parar a página inteira**. Só o X é contido agora.
 
-As fotos da timeline nascem `loading="lazy"`, mas dentro do pin elas só
-entrariam na viewport quando o trilho já as tivesse trazido — carregando e
-decodificando no meio do percurso, que é onde um engasgo aparece. O mesmo
-`IntersectionObserver` antecipa a carga ao se aproximar da seção, sem penalizar
-o carregamento inicial: quem está lendo a carta ainda não baixou nada disso.
+As fotos nascem `loading="lazy"`, e isso engasgaria o scroll nas duas pontas da
+seção fixada. **Na entrada:** dentro do pin as fotos da timeline só entrariam
+na viewport quando o trilho já as tivesse trazido — carregando e decodificando
+no meio do percurso. **Na saída:** as 26 fotos da grade antes/depois aparecem
+todas de uma vez no instante em que o pin solta. O mesmo `IntersectionObserver`
+antecipa as duas levas ao se aproximar da seção, sem penalizar o carregamento
+inicial: quem está lendo a carta ainda não baixou nada disso.
 
 ### Degradação
 
@@ -132,23 +134,38 @@ página mantém a geometria do Figma intacta e o palco inteiro é **reduzido**
 proporcionalmente. `--dk-scale` é o único botão: 1 até 1280px de viewport,
 `clientWidth / 1280` abaixo disso.
 
-Medido com `document.scrollWidth - clientWidth` em cada largura:
+Medido com `document.scrollWidth - clientWidth` em cada largura, na
+página inteira (CDP, viewport de 900px de altura):
 
-| Viewport | `--dk-scale` | Overflow horizontal | Percurso da timeline |
-| --- | --- | --- | --- |
-| 1920 | 1,000 | 0 | 870px |
-| 1600 | 1,000 | 0 | 683px |
-| 1440 | 1,000 | 0 | 843px |
-| 1366 | 1,000 | 0 | 546px |
-| 1280 | 0,988 | 0 | 722px |
-| 1024 | 0,788 | 0 | 888px |
-| 820  | 0,628 | 0 | 2252px |
+| Viewport | `--dk-scale` | Overflow horizontal | Altura do documento | Pin | Percurso |
+| --- | --- | --- | --- | --- | --- |
+| 1920 | 1,000 | 0 | 10108 | ligado | 740px |
+| 1600 | 1,000 | 0 | 10428 | ligado | 1060px |
+| 1440 | 1,000 | 0 | 10588 | ligado | 1220px |
+| 1366 | 1,000 | 0 | 10662 | ligado | 1294px |
+| 1280 | 1,000 | 0 | 10748 | ligado | 1380px |
+| 1152 | 0,900 | 0 | 10029 | ligado | 1508px |
+| 1024 | 0,800 | 0 |  9310 | ligado | 1636px |
+|  900 | 0,703 | 0 |  8614 | ligado | 1760px |
+|  820 | 0,641 | 0 |  8165 | ligado | 1840px |
+|  768 | 0,600 | 0 |  7873 | ligado | 1892px |
+|  640 | 0,500 | 0 |  7154 | ligado | 2020px |
+|  560 | 0,438 | 0 |  4605 | degradado | — |
+|  480 | 0,375 | 0 |  4076 | degradado | — |
+|  414 | 0,323 | 0 |  3639 | degradado | — |
+|  360 | 0,281 | 0 |  3282 | degradado | — |
+
+Zero de overflow horizontal em todas elas, e não por sorte: os únicos
+elementos de largura fixa da página — o canvas de cada palco e o trilho
+da timeline — vivem dentro de um `overflow: hidden`, então nenhuma
+largura de viewport pode empurrá-los para fora.
 
 A timeline usa uma escala própria (`--tlh-scale`), calculada para a **faixa
-realmente ocupada** pelo desenho — o frame tem 1983px de altura mas o conteúdo
-vive entre ~195 e ~1832, e escalar pela altura cheia desperdiçaria as margens
-vazias. Essa faixa é medida em tempo de execução, então continua correta se o
-desenho mudar.
+realmente ocupada** pelo desenho — o canvas tem 1983px de altura mas o conteúdo
+vive entre ~29 (o título de março) e ~1836 (o CTA de abril), e escalar pela
+altura cheia desperdiçaria as margens vazias. Essa faixa é medida em tempo de
+execução, então continua correta se o desenho mudar — e mudou: cada item novo
+num mês acima do eixo empurra o topo da faixa para cima.
 
 Quando existir um layout mobile de verdade, ele entra como um `@media` em
 `desktop/canvas.css` que zera a escala e troca `.dk-stage__canvas` por um fluxo
@@ -181,78 +198,153 @@ Da linha do tempo especificamente:
 
 - **Coordenadas** saem do Dev Mode e vivem todas na folha de estilo, agrupadas
   por mês. Nenhuma posição está inline no HTML.
-- **Ficaram de fora** seis nós que estão no arquivo mas **fora dos limites do
-  frame** (x ≥ 4872 ou y ≥ 2041) e portanto recortados pelo próprio Figma:
-  o título "Gestão em números", a nota de rodapé e quatro fotos duplicadas.
-- `foto-k8` veio **em branco** na exportação do fill; o valor certo é o segundo
-  fill do nó `2003:1183`. Se reexportar, confira essa foto.
+- **O desenho inteiro andou** entre a versão transcrita e a atual: exatamente
+  −61px em x e +110px em y, conferido nos nove nós do eixo. A folha guarda os
+  valores já deslocados de volta, e o topo dela explica como converter um
+  valor novo lido no Dev Mode. Não foi rebaseada porque trocaria uma centena
+  de números por outros equivalentes, sem diferença na tela.
+- **Ficaram de fora** os nós que o designer estaciona **fora dos limites do
+  frame** e que o próprio Figma recorta: o título "Gestão em números", uma
+  nota de rodapé e quatro fotos duplicadas.
 - **Quebras de linha** dos blocos de texto são as do Figma: cada bloco é um
   único text node com recuos manuais, preservados via `white-space: pre-wrap`.
-  O bloco de junho estoura a altura declarada do nó (456 px) — no Figma também
-  estoura, então o comportamento está correto.
-- Único acréscimo ao desenho: `:focus-visible` nos quatro CTAs, que o protótipo
-  não especifica.
-
-Três coisas em **julho e agosto** que valem registro, todas conferidas contra o
-render do Figma e não contornadas no código:
-
-- **As quatro fotos são duas.** Julho e agosto usam nós distintos (k24–k27) com
-  fills **byte a byte idênticos** — conferido por hash SHA-256. Dois arquivos
-  servem os quatro lugares. Se agosto for ganhar fotos próprias, é só trocar o
-  `src` dos dois `.tlh-photo--ago-*`.
+- **Os arquivos das fotos têm o nome do nó** (`foto-k21.jpg` = nó
+  `55432356482_1c16c217a3_k 21`). É o que torna barata a conferência da
+  próxima revisão: o nome no Dev Mode é o nome no disco.
 - **A pílula de JULHO não está centrada no próprio nó**: fica 66px à direita
   dele. Todos os outros oito meses estão centrados. Está assim no Figma, então
   está assim aqui; se o design corrigir, o `left` certo é 4105.
-- **A ponta do eixo.** As elipses pequenas que davam origem ao ponto final estão
-  **ocultas** na versão atual do arquivo — o eixo simplesmente termina. O ponto
-  foi mantido e movido de 4509 para 5712 junto com o eixo: apagá-lo seria
-  remover um elemento existente, e deixá-lo parado largaria um ponto solto no
-  meio da linha. Diga se prefere seguir o Figma e removê-lo.
+- Único acréscimo ao desenho: `:focus-visible` nos quatro CTAs, que o protótipo
+  não especifica.
 
-Julho e agosto **não têm** bloco "Resultados programa de sócio" — o protótipo só
-traz esse bloco de março a junho.
+**Agosto** é o único mês com uma foto só — o placar, um retrato alto demais
+para a moldura deitada. É também o único sem bloco de sócio: no lugar dele vem
+a nota de que o relatório ainda está em fechamento.
+
+### O enquadramento das fotos
+
+Na maioria dos nós o Figma simplesmente preenche a moldura, e um
+`object-fit: cover` reproduz isso. Mas em **seis** deles o designer arrastou e
+ampliou o fill por dentro — e aí `cover` erra o corte, às vezes muito
+(no retrato do futsal, a imagem aparece a 240% da altura da moldura).
+
+Esses seis declaram quatro variáveis com os percentuais do Dev Mode:
+
+```css
+.tlh-photo--jul-b { --tlh-crop-x: -7.23%; --tlh-crop-y: -62.54%;
+                    --tlh-crop-w: 128.19%; --tlh-crop-h: 240.35%; }
+```
+
+As porcentagens se resolvem contra a área **interna** do nó (a moldura de 2px
+já descontada), que é a mesma referência do Dev Mode — então os valores entram
+sem conversão. Quem não declara nada cai no `cover` de sempre. Conferido em
+headless: as quinze caixas de `<img>` batem com os percentuais do Figma.
 
 Fundos em `assets/img/desktop/` continuam **PNG** — todos têm canal alfa, e
 converter para JPEG viraria um retângulo preto. `fechamento.png` sozinho pesa
-2,1 MB (reduzido de 6 MB); é o maior arquivo do projeto. Fotos da timeline em
-`assets/img/timeline/`, reduzidas para 2× o tamanho exibido (~2 MB no total;
-os originais somavam 77 MB). `foto-k13` e `foto-k17` ficaram no tamanho nativo
-porque a origem já era menor que 2×.
+2,1 MB (reduzido de 6 MB); é o maior arquivo do projeto.
 
-`foto-k24` (a quadra) saiu do fill original em 738×492, o padrão da pasta.
-`foto-k25` (o uniforme do futsal) é a exceção: o fill é um retrato 3277×4096 e
-o Figma aplica nele um enquadramento próprio, que um `object-fit: cover` erra
-por 16,4%. Ela vem do **export do nó**, recortada nos 2px da moldura, e por
-isso está em 367×244 e não em 2×. Na página a timeline sempre aparece reduzida
-(`--tlh-scale` ≈ 0,48), então 367px ainda é o dobro do tamanho exibido.
+As 16 imagens da timeline (`assets/img/timeline/`, 2,1 MB) saem dos **fills**,
+que o Figma serve no tamanho original — 86 MB no total. Cada uma foi reduzida
+para **2× a área que ocupa no nó**, o que nos nós com enquadramento próprio é
+mais que 2× a moldura: o retrato do futsal aparece a 128% × 240% dela, então o
+arquivo tem 936×1170 e não 738×492. Nenhuma foi ampliada — três origens já
+eram menores que o alvo e ficaram como estavam.
+
+As 26 fotos da grade antes/depois, em `assets/img/ilha/` (3,4 MB), são a
+exceção da casa: vêm do **export do nó** em 402×269 (2× o tamanho exibido) e
+por isso já trazem a moldura vermelha de 1,35px desenhada dentro do arquivo.
+É por isso que `.dk-ilha-item__shot` **não** tem `border` — repetir a moldura
+em CSS a dobraria. As fotos da timeline seguem o caminho oposto: arquivo sem
+moldura, borda em CSS.
 
 ---
 
-## ⚠️ Pendente: o Figma mudou mais do que julho e agosto
+## O que a última revisão do protótipo trouxe
 
-A entrega atual acrescentou **só** julho e agosto, como pedido. Mas a mesma
-revisão do protótipo reescreveu o texto de **seis meses já publicados**, e isso
-**não** foi aplicado:
+A pendência que este arquivo registrava — o Figma ter reescrito seis meses já
+publicados — **foi aplicada**, junto com o resto da revisão. O que entrou:
 
-| Mês | O que mudou no Figma |
+**No frame do desktop** (que virou `Desktop V. ATUAL`, node 2096:128):
+
+- seção nova **"A ILHA QUE O TORCEDOR MERECE"**, com treze comparações
+  antes/depois — 26 fotos, rótulos e pílulas de estado. É o palco do meio;
+- nota de rodapé nova em "Resultados do semestre" (*"os dados apresentados
+  referem-se ao período de janeiro a junho"*);
+- três legendas reescritas ou reposicionadas: `569.423.444 m`, `65` e `+50`.
+
+Todo o resto do frame — carta, hero, organograma, gestão em números,
+resultados e fechamento — bate com o que já estava publicado. O bloco de
+baixo desceu −697px em bloco na revisão, sem mudar nada relativo.
+
+**Na linha do tempo** (node 2001:3):
+
+| Mês | O que mudou |
 | --- | --- |
-| dezembro | bloco reescrito: "3 folhas do futebol atrasadas, 40 mil no caixa e a sede inutilizável"; entram "Entrega do novo mastro e bandeirão" e "Revitalização da Ilha do Retiro" |
-| janeiro | entra "Obras nos banheiros da sede" |
-| fevereiro | sem alteração |
-| março | entram "Conquista do 46º título pernambucano do Clube" e "Lançamento dos primeiros uniformes oficiais em parceria com a Kappa (Home e Away 2026)" |
-| abril | entram "Entrega do escudo 3D na Ilha do Retiro" e "Convocação da atleta Mia Hopkins (Seleção Brasileira de Basquete 3x3 Adulta)" |
-| maio | reescrito no trecho do futebol feminino; entram "Entrega do novo parquinho da sede" e as convocações de Pedro Victor e Zé Lucas |
-| junho | reescrito no trecho da sede/CT; entra "Convocação do atleta da base Yan (Seleção Brasileira Sub-15)" |
+| dezembro | bloco reescrito ("3 folhas do futebol atrasadas, 40 mil no caixa e a sede inutilizável", renegociação com a empreiteira, revitalização da Ilha); "Definição ticketeira" virou "Negociação e escolha da Ticketeira para as próximas temporadas"; **as duas fotos trocaram** — agora são a limpeza do gramado e a lavagem das cadeiras |
+| janeiro | entram "Negociações em decorrência das rescisões do exercício anterior (2025)", "Renovação Betnacional, com expansão para patrocínio master no futebol feminino" e "Obras nos banheiros da sede" |
+| fevereiro | entram hóquei, parceria Montebello e mastro do bandeirão; "Rádio Ilha + Betnacional" virou "Rádio Ilha Betnacional" |
+| março | entram o ERP Protheus, a Gestão à Vista com KPIs e BI, o Almoxarifado de Enxoval, o 46º título pernambucano e os uniformes Kappa |
+| abril | entram o escudo 3D e a convocação de Mia Hopkins |
+| maio | trecho do futebol feminino reescrito; entram o parquinho, as convocações de Pedro Victor e Zé Lucas e a conclusão do teto do Salão Social; "telão" virou "placar eletrônico" |
+| junho | entra o Grupo de Trabalho das ressalvas das Demonstrações Financeiras de 2025; trecho da sede/CT reescrito; entram a reforma do campo auxiliar e a convocação de Yan |
+| julho | entram o Leão Camp e a venda de Zé Lucas; **ganhou bloco "Resultados programa de sócio"**, que antes ia só até junho |
+| agosto | bloco reescrito; **as duas fotos viraram uma** (o placar eletrônico) e entrou a nota sobre o relatório em fechamento |
 
-Aplicar isso muda também a **posição** dos blocos: nos meses acima do eixo o
-texto é ancorado embaixo, então acrescentar um item empurra título e corpo para
-cima. As coordenadas dos seis meses teriam de ser relidas do Dev Mode, não só o
-texto.
+Uma revisão posterior ainda **removeu quebras manuais** em janeiro e março —
+itens que eram um `<li>` mais uma linha recuada viraram um `<li>` só — e
+empurrou sete blocos de texto para a direita (entre +13 e +18px), junto com o
+bloco de sócio de abril. Tudo relido do Dev Mode.
 
-Vale checar duas outras coisas antes de publicar: o `<title>` e a descrição
-ainda dizem **"1º Semestre"**, e a linha do tempo agora vai até agosto; e o
-título da seção no frame `Desktop` continua "A TRANSFORMAÇÃO CHEGA À ILHA E AO
-TORCEDOR".
+E uma terceira revisão **trocou sete fotos**, sem mexer em uma vírgula do
+texto nem em uma coordenada — o tipo de mudança que os metadados não denunciam
+(o nome do nó continua o mesmo) e que só apareceu ao comparar o render do
+Figma com o da página, lado a lado, na mesma escala:
+
+| Foto | Era | Virou |
+| --- | --- | --- |
+| janeiro, esquerda (`k21`) | treino físico no campo | banheiro da sede reformado |
+| janeiro, direita (`k15`) | cabeceio no treino | apresentação do relatório "6 meses de reorganização institucional" |
+| março, direita (`k8`) | sócios com os mascotes | elenco erguendo a taça do Pernambucano de 2026 |
+| abril, esquerda (`k14`) | crianças com os mascotes | escudo 3D no gramado, sob fogos |
+| maio, esquerda (`k17`) | sócia no banco de reservas | show para a torcida em ação de relacionamento |
+| maio, direita (`k18`) | fogos sobre o telão | placar eletrônico anunciando Diego Hernandez |
+| julho, esquerda (`k24`) | quadra de futsal | largada da 3ª Corrida do Sport |
+
+Junto vieram seis **enquadramentos próprios** de fill que a página não
+reproduzia (ver acima). Na prática, comparar só coordenadas e texto não basta
+nesse arquivo: vale sempre um render lado a lado.
+
+Isso mexeu na **posição** dos blocos, não só no texto: nos quatro meses acima
+do eixo o conteúdo é ancorado embaixo, então cada item novo empurra título e
+corpo para cima. Maio foi o que mais subiu — o título saiu de `top: 195` para
+`top: 46`. Todas as coordenadas foram relidas do Dev Mode.
+
+O eixo encurtou de 5283 para 5186px e o `axis.svg` foi **regerado** nessa
+largura (ele tem `preserveAspectRatio="none"`; esticar o arquivo antigo
+deformaria os tracejados). A ponta do eixo voltou a ser um nó visível no
+arquivo, agora com 16px — a ressalva que este README registrava caiu.
+
+### Para conferir com quem desenha
+
+Três coisas foram transcritas **como estão no protótipo** por fidelidade, mas
+parecem deslizes de digitação. Corrigi-las é uma linha em cada caso; diga se
+quer:
+
+| Onde | Como está no Figma |
+| --- | --- |
+| Resultados do semestre, cartão `65` | "Catracas operando **perando** em 12 portões" |
+| Gestão em números, cartão `+50` | "**NovosContratos** de patrocinadores" (sem o espaço) |
+| Linha do tempo, julho | entre "Leão Camp" e "Venda do jogador Zé Lucas" há um **item de lista vazio**, que rende um marcador solto |
+
+E duas de conteúdo, que ninguém além do clube pode decidir: o `<title>` e a
+`<meta description>` ainda dizem **"1º Semestre"** com a linha do tempo indo
+até agosto; e o título da seção fixada continua "A TRANSFORMAÇÃO CHEGA À ILHA
+E AO TORCEDOR", agora com uma seção logo abaixo chamada "A ILHA QUE O
+TORCEDOR MERECE".
+
+Os textos alternativos das 26 fotos novas foram escritos pelo que aparece em
+cada exportação. Vale uma revisão de quem produziu as fotos.
 
 ---
 
@@ -260,7 +352,7 @@ TORCEDOR".
 
 ```
 sport-timeline/
-├─ index.html                     # ★ a entrega: frame 1:2 + timeline horizontal
+├─ index.html                     # ★ a entrega: frame do desktop + timeline
 ├─ .nojekyll                      # GitHub Pages: serve os arquivos como estão
 ├─ assets/
 │  ├─ css/
@@ -273,12 +365,14 @@ sport-timeline/
 │  │  └─ desktop/
 │  │     ├─ canvas.css            # palcos, escala, fundos full-bleed
 │  │     ├─ sections.css          # carta, hero, números, resultados, fechamento
+│  │     ├─ ilha.css              # ★ a grade antes/depois (namespace dk-ilha-)
 │  │     └─ pin.css               # ★ sticky + scroll horizontal
 │  ├─ js/
 │  │  └─ desktop.js               # ★ escala + pin (vanilla, sem dependências)
 │  └─ img/
 │     ├─ timeline/                # exports do frame 2001:3 (fotos e SVGs)
-│     └─ desktop/                 # fundos full-bleed do frame 1:2
+│     ├─ ilha/                    # as 26 fotos antes/depois (export dos nós)
+│     └─ desktop/                 # fundos full-bleed do frame do desktop
 └─ README.md
 ```
 
@@ -347,20 +441,23 @@ Três números aparecem em dois lugares — `base/tokens.css` (grupo `--fig-*`) 
 o topo de `assets/js/desktop.js`:
 
 ```
-1280   largura do frame "Desktop"
-5942   largura do canvas da timeline
+1280   largura do frame do desktop
+5845   largura do canvas da timeline
 1983   altura  do canvas da timeline
 ```
 
 Mudou o frame no Figma? Atualize os dois lados. (O CSS do pin lê os tokens,
 então só existem esses dois pontos de verdade.)
 
-**5942 não é a largura do frame.** Com julho e agosto o frame passou a
-8225 × 2150, mas o desenho termina em 5712 — a ponta do eixo — e o resto é
-folga que o designer deixou para os nós estacionados fora dos limites.
-Reproduzir os 8225 acrescentaria ~2200px de preto para rolar. O valor aqui é
-a ponta do eixo mais os mesmos 230px de respiro que o frame antigo tinha
-(4746, com o eixo terminando em 4516).
+**5845 não é a largura do frame.** O desenho termina em 5623 — a ponta do
+eixo, contando o ponto final — e o resto do frame é folga que o designer
+deixou para os nós estacionados fora dos limites. Reproduzir a largura cheia
+acrescentaria centenas de pixels de preto para rolar. O valor aqui é a ponta
+do eixo mais os mesmos ~230px de respiro que o frame tinha quando ia só até
+junho.
+
+As alturas dos três palcos verticais estão em `desktop/canvas.css`, com o
+recorte do frame anotado ao lado de cada uma.
 
 ### Tipografia
 
@@ -389,6 +486,24 @@ O percurso horizontal se recalcula sozinho a partir daí.
 
 A ordem do DOM é sempre cronológica (dez → ago) independente do lado do eixo.
 Isso mantém a leitura correta em leitor de tela e em navegação por teclado.
+
+### Acrescentar um item na grade antes/depois
+
+`desktop/ilha.css` já descreve o desenho **interno** de um item — rótulo, as
+duas fotos, o "x" e as pílulas. Conferidas uma a uma no Dev Mode, essas
+distâncias são idênticas nos treze itens: variam no quarto decimal. Então
+acrescentar um item é:
+
+1. Um `<figure class="dk-ilha-item dk-ilha-item--nome">` no HTML, com o rótulo,
+   as duas fotos e as duas pílulas (`--antes`, `--depois` ou `--andamento-a` /
+   `--andamento-b`, conforme o estado de cada foto).
+2. **Uma linha** de CSS com o par `left`/`top` do rótulo, já rebaseado em
+   −5322px no y. A coluna da esquerda fica em `left: 158px`, a da direita em
+   `668px`.
+3. Exportar as fotos pelo **nó** (não pelo fill), em 2×, para a moldura vir
+   junto — ver a nota de fidelidade acima.
+4. Se a grade crescer, esticar `--dk-stage-h` de `.dk-stage--ilha` em
+   `desktop/canvas.css`. O corte hoje é 5322 → 7479.
 
 ---
 
