@@ -1,0 +1,43 @@
+/* ============================================================
+   Reset das páginas 1:1
+   Compartilhado por desktop.html e timeline-horizontal.html.
+
+   Só o essencial: essas páginas são canvas de posicionamento
+   absoluto e não podem herdar as regras fluidas de main.css.
+   Depende de base/tokens.css (grupo --fig-*).
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { background: var(--fig-bg); }
+
+body {
+  margin: 0;
+  background: var(--fig-bg);
+  color: var(--fig-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Nenhuma imagem do protótipo é inline; todas ocupam a caixa que
+   o Figma desenhou. `max-width: none` evita que qualquer regra
+   herdada encolha um fill. */
+img {
+  display: block;
+  max-width: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

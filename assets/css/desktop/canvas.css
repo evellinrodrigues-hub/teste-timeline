@@ -1,0 +1,104 @@
+/* ============================================================
+   DESKTOP · CANVAS E ESCALA
+   Frame do Figma "Desktop" · node-id 1:2 — 1280 px de largura.
+
+   ---------------------------------------------------------
+   POR QUE ESCALA, E NÃO REFLOW
+   ---------------------------------------------------------
+   O frame é um desenho 1:1 de posicionamento absoluto. Refluir
+   as colunas em telas menores mudaria o desenho, que é
+   justamente o que não se quer. Então a página mantém a
+   geometria do Figma intacta e o palco inteiro é REDUZIDO
+   proporcionalmente: as proporções ficam idênticas em 1440,
+   1280 ou 1024, e nada transborda.
+
+   `--dk-scale` é o único botão: 1 até 1280px de viewport,
+   `clientWidth / 1280` abaixo disso. Quem escreve é o
+   assets/js/desktop.js. Sem JS o valor fica em 1 e a página
+   simplesmente rola na horizontal — nada quebra.
+
+   Quando existir um layout mobile de verdade, ele entra como um
+   @media que zera a escala e troca `.dk-stage__canvas` por um
+   fluxo normal; nenhuma outra folha precisa saber disso.
+   ============================================================ */
+
+:root {
+  --dk-scale: 1;
+  --dk-canvas-w: 1280px;
+}
+
+/* ============================================================
+   1. PALCO
+
+   O palco reserva no layout a altura JÁ ESCALADA (transform não
+   afeta o fluxo); o canvas é o desenho 1:1 de verdade, centrado
+   e reduzido por cima.
+
+   `translateX(-50%) scale(s)` com origem no topo-centro resolve
+   as duas coisas de uma vez: a caixa final ocupa
+   [W/2 − 640s, W/2 + 640s], ou seja, sempre centrada e com a
+   largura exata da escala.
+   ============================================================ */
+.dk-stage {
+  position: relative;
+  height: calc(var(--dk-stage-h) * var(--dk-scale));
+  overflow: hidden;
+}
+
+.dk-stage__canvas {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--dk-canvas-w);
+  height: var(--dk-stage-h);
+  transform: translateX(-50%) scale(var(--dk-scale));
+  transform-origin: top center;
+}
+
+/* Alturas recortadas do frame original:
+   topo    0 → 3443   (carta, hero, organograma, números, título da linha)
+   base 8176 → 11044  (resultados e fechamento, rebaseados em −8176) */
+.dk-stage--top    { --dk-stage-h: 3443px; }
+.dk-stage--bottom { --dk-stage-h: 2868px; }
+
+/* ============================================================
+   2. IMAGENS DE FUNDO (full-bleed)
+
+   ORDEM DE PINTURA: é a ordem do DOM, sem z-index. O transform
+   do canvas cria um contexto de empilhamento próprio, então
+   basta escrever cada fundo onde ele entra no protótipo:
+   `telão` e `bg 1` ANTES do conteúdo, `fechamento` DEPOIS — no
+   Figma essa última fica mesmo por cima do texto de fechamento,
+   e é o alfa dela que deixa ler.
+   ============================================================ */
+.dk-bg {
+  position: absolute;
+  overflow: hidden;
+}
+
+.dk-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dk-bg--telao      { left:  0px; top:  723px; width: 1280px; height: 857px; }
+.dk-bg--num        { left:  0px; top: 1555px; width: 1280px; height: 515px; opacity: 0.6; }
+.dk-bg--fechamento { left: -7px; top: 1888px; width: 1289px; height: 980px; }
+
+/* ============================================================
+   3. CORREÇÃO DE PRIMEIRA LINHA (--dk-baseline-fix)
+
+   Quando a entrelinha é menor que a altura natural da fonte, o
+   Chrome aplica meio-espaçamento NEGATIVO e sobe os glifos; o
+   Figma, nesses mesmos nós, mantém a primeira linha onde estaria
+   com entrelinha natural. A diferença é constante e só aparece
+   nos títulos de seção (0,99735) e nos números (0,999) — todo o
+   resto do frame, que usa entrelinha >= 1, bate sem correção.
+
+   0,2525em foi medido comparando o render 1:1 do Figma com o
+   render do Chrome: acerta os 17 elementos afetados com folga
+   de ~1px. Se a versão da Poppins mudar, remeça.
+   ============================================================ */
+:root { --dk-baseline-fix: 0.2525em; }

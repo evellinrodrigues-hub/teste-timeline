@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<!--
+  A PÁGINA — os dois frames do Figma unidos num documento só
+  "Desktop" · node 1:2  +  "Timeline horizontal" · node 2001:3
+  https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal
+
+  A linha do tempo vertical do frame 1:2 saiu e no lugar dela
+  entrou o frame 2001:3 inteiro, como seção fixada que rola na
+  horizontal enquanto o resto da página rola na vertical.
+
+  ESTRUTURA
+    palco de cima   canvas 1280 × 3443   (carta → título da linha)  ↓ vertical
+    seção fixada    canvas 4746 × 1983   (a linha do tempo)         → horizontal
+    palco de baixo  canvas 1280 × 2868   (resultados e fechamento)  ↓ vertical
+
+  Os palcos são o frame 1:2 recortado; o de baixo está rebaseado
+  em −8176px. Coordenadas, escala e pin moram no CSS/JS:
+    assets/css/desktop.css   (índice dos módulos)
+    assets/css/desktop/pin.css (o pin e o percurso horizontal)
+    assets/js/desktop.js     (escala + pin)
+
+  Os recuos de espaço dentro de alguns <p> são intencionais: no
+  Figma esses blocos são um único text node com quebras e recuos
+  manuais, preservados via `white-space: pre-wrap`.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+
+  <title>Balanço do 1º Semestre · Sport Club do Recife</title>
+  <meta name="description" content="Organizar, transformar e avançar. Balanço da gestão do Sport Club do Recife no primeiro semestre: carta da diretoria, gestão em números, linha do tempo e resultados.">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap">
+
+  <link rel="stylesheet" href="assets/css/desktop.css">
+</head>
+
+<body>
+
+<main class="dk-page">
+
+  <h1 class="sr-only">Balanço do 1º semestre da gestão do Sport Club do Recife</h1>
+
+  <!-- ============================================================
+       PALCO DE CIMA — frame 1:2, y 0 → 3443
+       ============================================================ -->
+  <div class="dk-stage dk-stage--top">
+    <div class="dk-stage__canvas">
+
+      <!-- Fundos que ficam ABAIXO do conteúdo: vêm antes no DOM.
+           `bg 1` depois do telão porque se sobrepõem em y 1555-1580. -->
+      <div class="dk-bg dk-bg--telao" aria-hidden="true">
+        <img src="assets/img/desktop/telao.png" width="1280" height="857" alt="" decoding="async">
+      </div>
+      <div class="dk-bg dk-bg--num" aria-hidden="true">
+        <img src="assets/img/desktop/bg.png" width="1280" height="515" alt="" decoding="async">
+      </div>
+
+      <!-- ---------- 1. CARTA DE ABERTURA ---------- -->
+      <section aria-labelledby="carta-titulo">
+
+        <h2 class="dk-letter-title" id="carta-titulo">Transparência, seriedade e comprometimento.</h2>
+
+        <p class="dk-letter-kicker">Mensagem inicial:</p>
+
+        <div class="dk-letter-body">
+          <p>Esta linha do tempo nasce como mais um instrumento de transparência, prestação de contas e acompanhamento</p>
+          <p>da gestão do Sport Club do Recife. Atualizada mensalmente, ela reunirá as principais entregas, decisões e avanços realizados em todas as áreas do Clube, do futebol à administração.</p>
+          <p>&#8203;</p>
+          <p>Cada iniciativa faz parte de um trabalho integrado, com objetivos, metas e responsabilidades bem definidos,</p>
+          <p>buscando unir desempenho esportivo, eficiência institucional, responsabilidade financeira e desenvolvimento sustentável.</p>
+          <p>&#8203;</p>
+          <p>Nosso compromisso é construir um Sport cada vez mais profissional, moderno e preparado</p>
+          <p>para os desafios do futebol brasileiro, gerando resultados dentro e fora de campo e respeitando</p>
+          <p>a grandeza da sua história.</p>
+          <p>&#8203;</p>
+          <p>Não trabalhamos apenas para administrar o presente. Trabalhamos para fortalecer as bases do futuro.</p>
+          <p>&#8203;</p>
+          <p>Seguiremos com transparência, seriedade, responsabilidade e compromisso permanente com o Sport e com a sua torcida.</p>
+          <p>&#8203;</p>
+          <p>&#8203;</p>
+          <p class="dk-signature">DIRETORIA EXECUTIVA</p>
+        </div>
+
+      </section>
+
+      <!-- ---------- 2. HERO ---------- -->
+      <section aria-labelledby="hero-titulo">
+        <div class="dk-hero-title" id="hero-titulo" role="heading" aria-level="2">
+          <p>ORGANIZAR,</p>
+          <p>TRANSFORMAR</p>
+          <p>E AVANÇAR.</p>
+        </div>
+      </section>
+
+      <!-- ---------- 3. ORGANOGRAMA EXECUTIVO ---------- -->
+      <section aria-labelledby="org-titulo">
+        <h2 class="dk-org-title" id="org-titulo">ORGANOGRAMA EXECUTIVO</h2>
+        <a class="dk-btn" href="#">clique aqui</a>
+      </section>
+
+      <!-- ---------- 4. GESTÃO EM NÚMEROS ---------- -->
+      <section aria-labelledby="numeros-titulo">
+
+        <h2 class="dk-section-title dk-section-title--num" id="numeros-titulo">GESTÃO EM NÚMEROS</h2>
+
+        <!-- linha 1 -->
+        <div class="dk-stat dk-stat--10"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--10">10</p>
+        <p class="dk-stat-label dk-stat-label--10">Centros de custos estruturados.</p>
+
+        <div class="dk-stat dk-stat--13"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--13">13</p>
+        <p class="dk-stat-label dk-stat-label--13">Atletas da base no<br>elenco profissional.</p>
+
+        <div class="dk-stat dk-stat--soc"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--soc">25.115</p>
+        <p class="dk-stat-label dk-stat-label--soc">Sócios, sendo<br>21.147 pagantes.</p>
+
+        <!-- linha 2 -->
+        <div class="dk-stat dk-stat--15"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--15">+15</p>
+        <p class="dk-stat-label dk-stat-label--15">Projetos de<br>tecnologia entregues.</p>
+
+        <div class="dk-stat dk-stat--fem"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--fem">7</p>
+        <p class="dk-stat-label dk-stat-label--fem">Atletas formadas na<br>base no futebol feminino.</p>
+
+        <div class="dk-stat dk-stat--obr"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--obr">7</p>
+        <div class="dk-stat-label dk-stat-label--obr">
+          <p>Obras de infraestrutura incorporadas no patrimônio do Clube</p>
+          <p>&#8203;</p>
+        </div>
+
+        <!-- linha 3 -->
+        <div class="dk-stat dk-stat--80"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--80">+80</p>
+        <p class="dk-stat-label dk-stat-label--80">Contratos de patrocinadores, parceiros e licenciamento.</p>
+
+        <div class="dk-stat dk-stat--50"><div class="dk-stat__bar"></div></div>
+        <p class="dk-num dk-num--50">+50</p>
+        <p class="dk-stat-label dk-stat-label--50">Contratos de patrocinadores, parceiros e licenciamento.*</p>
+
+        <p class="dk-footnote">*O número representa novos contratos e renovações. Os dados mencionados acima referem-se ao período até 30/06/2026.</p>
+
+      </section>
+
+      <!-- ---------- 5. TÍTULO DA LINHA DO TEMPO ----------
+           Fica no palco de cima e nomeia a seção fixada abaixo. -->
+      <h2 class="dk-tl-title" id="timeline-titulo">A TRANSFORMAÇÃO CHEGA À ILHA E AO TORCEDOR</h2>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LINHA DO TEMPO — frame 2001:3 (4746 × 1983)
+       Seção fixada: o scroll vertical vira horizontal aqui dentro
+       e volta a ser vertical no fim. Ver assets/css/desktop/pin.css.
+       ============================================================ -->
+  <section class="dk-pin" id="linha-do-tempo" data-pin-section aria-labelledby="timeline-titulo">
+    <div class="dk-pin__viewport"
+         data-pin-viewport
+         role="group"
+         tabindex="0"
+         aria-label="Linha do tempo do primeiro semestre, de dezembro a junho">
+      <div class="dk-pin__track" data-pin-track>
+        <div class="tlh-canvas" data-pin-canvas>
+
+          <!-- ---------- EIXO ---------- -->
+          <div class="tlh-axis" aria-hidden="true">
+            <img src="assets/img/timeline/axis.svg" width="4080" height="2" alt="">
+          </div>
+          <div class="tlh-node tlh-node--end" aria-hidden="true">
+            <img src="assets/img/timeline/node-end.svg" width="14" height="14" alt="">
+          </div>
+
+          <!-- ---------- DEZEMBRO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-dez">
+
+            <div class="tlh-node tlh-node--dez" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--down tlh-stem--dez" aria-hidden="true">
+              <img src="assets/img/timeline/stem-down.svg" width="93" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--wide tlh-month--dez" id="mes-dez">dezembro</h3>
+              <h4 class="tlh-title tlh-title--dez">INício, reestruturação<br>e planejamento</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--dez">
+              <ul>
+                <li>Início da gestão: 19/12/2025</li>
+              </ul>
+              <p>      com R$40 mil reais no caixa;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Definição ticketeira;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Construção do planejamento de curto prazo, início de negociação com atletas</li>
+              </ul>
+              <p>      do elenco e do mercado.</p>
+            </div>
+
+            <div class="tlh-photo tlh-photo--offset tlh-photo--dez-a">
+              <img src="assets/img/timeline/foto-k22.jpg" width="369" height="246" alt="Dirigente discursa ao microfone em cerimônia na sede do Sport, diante de uma plateia, com as bandeiras do clube ao fundo" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--dez-b">
+              <img src="assets/img/timeline/foto-k23.jpg" width="369" height="246" alt="Bandeira rubro-negra do Sport hasteada no mastro da Ilha do Retiro, com o gramado e as arquibancadas ao fundo" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- JANEIRO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-jan">
+
+            <div class="tlh-node tlh-node--jan" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--up tlh-stem--jan" aria-hidden="true">
+              <img src="assets/img/timeline/stem-up.svg" width="106" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--jan" id="mes-jan">janeiro</h3>
+              <h4 class="tlh-title tlh-title--jan">organizar<br>para avançar</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--jan">
+              <ul>
+                <li>Reorganização do modelo de gestão: responsabilidades mais claras, orçamento vinculado às áreas e indicadores de acompanhamento de entregas;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Maior integração entre diferentes</li>
+              </ul>
+              <p>      frentes do Clube;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Aproximação de gestão, marca, relacionamento, produtos, conteúdo, operação e geração de novas oportunidades;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Reformulação do elenco de futebol profissional: 17 saídas, 15 contratações</li>
+              </ul>
+              <p>      e 13 atletas formados nas categorias</p>
+              <p>      de base;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Planejamento do novo programa de sócios.</li>
+              </ul>
+            </div>
+
+            <div class="tlh-photo tlh-photo--jan-a">
+              <img src="assets/img/timeline/foto-k2.jpg" width="369" height="246" alt="Atletas do Sport em circuito de treinamento físico sobre barreiras amarelas no campo do centro de treinamento" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--jan-b">
+              <img src="assets/img/timeline/foto-k15.jpg" width="369" height="246" alt="Dois atletas do Sport saltam para cabecear em exercício de treino, com as bolas no ar" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- FEVEREIRO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-fev">
+
+            <div class="tlh-node tlh-node--fev" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--down tlh-stem--fev" aria-hidden="true">
+              <img src="assets/img/timeline/stem-down.svg" width="93" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--wide tlh-month--fev" id="mes-fev">fevereiro</h3>
+              <h4 class="tlh-title tlh-title--fev">tecnologia a<br>serviço da experiência</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--fev">
+              <ul>
+                <li>Modernização das ferramentas de performance;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Atualização dos sistemas de monitoramento físico, gestão esportiva e conectividade;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Estruturação de processos de mercado, compliance, integração de atletas e desenvolvimento individual;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Avanços em tecnologia e experiência;</li>
+              </ul>
+              <p>      Preparação das principais entregas do</p>
+              <p>      semestre;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Novas catracas do estádio: alto índice de satisfação por parte da torcida;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Novo ecossistema digital: Sport ID, MarIA e implementação do BaladaPP;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Inauguração da Rádio Ilha + Betnacional.</li>
+              </ul>
+            </div>
+
+            <div class="tlh-photo tlh-photo--fev-a">
+              <img src="assets/img/timeline/foto-k6.jpg" width="369" height="246" alt="Grupo de sócios comemora com os braços erguidos em ação de relacionamento na sede do clube" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--fev-b">
+              <img src="assets/img/timeline/foto-k5.jpg" width="369" height="246" alt="Fogos e serpentinas sobre a cabine da Rádio Ilha + Betnacional na inauguração, com torcedores comemorando na arquibancada" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- MARÇO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-mar">
+
+            <div class="tlh-node tlh-node--mar" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--up tlh-stem--mar" aria-hidden="true">
+              <img src="assets/img/timeline/stem-up.svg" width="106" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--mar" id="mes-mar">MARÇO</h3>
+              <h4 class="tlh-title tlh-title--mar">o sócio no<br>centro de tudo</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--mar">
+              <ul>
+                <li>Lançamento do programa Sócio Maior do Nordeste: nova proposta de relacionamento, benefícios e participação do torcedor;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Primeira Trip do Leão em 2026 (Natal);</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Inauguração da loja Conceito da Ilha do Retiro, conectando a nova parceria com a Kappa, os produtos oficiais e a experiência de marca em um único ambiente;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Comercialização inédita de</li>
+              </ul>
+              <p>      ovos de Páscoa personalizados.</p>
+            </div>
+
+            <p class="tlh-socio-label tlh-socio-label--mar">RESULTADOS PROGRAMA DE SÓCIO:</p>
+            <div class="tlh-socio-box tlh-socio-box--mar">
+              <p>15.667 SÓCIOS ATIVOS, SENDO 12.204 PAGANTES<br>FATURAMENTO: R$2.270,162,92</p>
+            </div>
+            <a class="tlh-cta tlh-cta--mar" href="#"><span>Veja o relatório completo aqui</span></a>
+
+            <div class="tlh-photo tlh-photo--mar-a">
+              <img src="assets/img/timeline/foto-k7.jpg" width="298" height="408" alt="Duas torcedoras posam com os novos uniformes do Sport assinados pela Kappa" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--mar-b">
+              <img src="assets/img/timeline/foto-k8.jpg" width="298" height="199" alt="Sócios ao lado dos mascotes do Sport no gramado da Ilha do Retiro" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- ABRIL ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-abr">
+
+            <div class="tlh-node tlh-node--abr" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--down tlh-stem--abr" aria-hidden="true">
+              <img src="assets/img/timeline/stem-down.svg" width="93" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--wide tlh-month--abr" id="mes-abr">ABRIL</h3>
+              <h4 class="tlh-title tlh-title--abr">governança<br>em operação</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--abr">
+              <ul>
+                <li>Estruturação de dez centros de custos, ampliando a autonomia dos gestores</li>
+              </ul>
+              <p>      e visibilidade sobre orçamento, equipe,</p>
+              <p>      indicadores e execução;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Avanço das ações de relacionamento</li>
+              </ul>
+              <p>      com sócios: Café com Gestão, lançamento</p>
+              <p>      do Ilha de Experiências, novas fontes de</p>
+              <p>      receita, modernização dos Bares do Leão</p>
+              <p>      em parceria com a Brahma e campanhas</p>
+              <p>      de varejo, produtos e licenciamento.</p>
+            </div>
+
+            <p class="tlh-socio-label tlh-socio-label--abr">RESULTADOS PROGRAMA DE SÓCIO:</p>
+            <div class="tlh-socio-box tlh-socio-box--abr">
+              <p>18.860 SÓCIOS ATIVOS, SENDO 15.310 PAGANTES<br>FATURAMENTO: R$ 2.358.963,07</p>
+            </div>
+            <a class="tlh-cta tlh-cta--abr" href="#"><span>Veja o relatório completo aqui</span></a>
+
+            <div class="tlh-photo tlh-photo--abr-a">
+              <img src="assets/img/timeline/foto-k13.png" width="369" height="246" alt="Bar do Leão reformado na Ilha do Retiro, em parceria com a Brahma" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--abr-b">
+              <img src="assets/img/timeline/foto-k14.jpg" width="369" height="246" alt="Crianças e torcedores posam com os mascotes do Sport no gramado da Ilha do Retiro" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- MAIO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-mai">
+
+            <div class="tlh-node tlh-node--mai" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--up tlh-stem--mai" aria-hidden="true">
+              <img src="assets/img/timeline/stem-up.svg" width="106" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--mai" id="mes-mai">MAIO</h3>
+              <h4 class="tlh-title tlh-title--mai">crescer<br>com critério</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--mai">
+              <ul>
+                <li>Aumento da estrutura do futebol feminino: de 53 a 73 integrantes no período de janeiro a maio (crescimento de 37,7%). O projeto passou a contar com sete atletas formadas na base e estrutura de alimentação e saúde alinhada ao padrão do futebol profissional;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Futebol masculino: 75% de aproveitamento no recorte esportivo;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Avanços das frentes de experiência, relacionamento e geração de receitas: Ilha de Experiências, primeira Trip do Leão aérea, SportZone e novo telão de 20 metros;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Ações de produtos, licenciamentos e ativações dos 121 anos do Sport e Dia das Mães;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Continuidade das ações de relacionamento com sócios.</li>
+              </ul>
+            </div>
+
+            <p class="tlh-socio-label tlh-socio-label--mai">RESULTADOS PROGRAMA DE SÓCIO:</p>
+            <div class="tlh-socio-box tlh-socio-box--mai">
+              <p>24.989 SÓCIOS ATIVOS, SENDO 21.186 PAGANTES<br>FATURAMENTO: R$ 2.719.226,87</p>
+            </div>
+            <a class="tlh-cta tlh-cta--mai" href="#"><span>Veja o relatório completo aqui</span></a>
+
+            <div class="tlh-photo tlh-photo--mai-a">
+              <img src="assets/img/timeline/foto-k17.png" width="369" height="246" alt="Sócia sentada no banco de reservas da Ilha do Retiro durante a ação Ilha de Experiências" loading="lazy" decoding="async">
+            </div>
+            <div class="tlh-photo tlh-photo--mai-b">
+              <img src="assets/img/timeline/foto-k18.jpg" width="369" height="246" alt="Novo telão de 20 metros da Ilha do Retiro iluminado, com fogos disparados sobre a torcida" loading="lazy" decoding="async">
+            </div>
+
+          </article>
+
+          <!-- ---------- JUNHO ---------- -->
+          <article class="tlh-month-group" aria-labelledby="mes-jun">
+
+            <div class="tlh-node tlh-node--jun" aria-hidden="true">
+              <img src="assets/img/timeline/node.svg" width="38" height="38" alt="">
+            </div>
+            <div class="tlh-stem tlh-stem--down tlh-stem--jun" aria-hidden="true">
+              <img src="assets/img/timeline/stem-down.svg" width="93" height="14.7279" alt="">
+            </div>
+
+            <header>
+              <h3 class="tlh-month tlh-month--wide tlh-month--jun" id="mes-jun">JUNHO</h3>
+              <h4 class="tlh-title tlh-title--jun">DO PAPEL<br>AOS RESULTADOS</h4>
+            </header>
+
+            <div class="tlh-body tlh-body--jun">
+              <ul>
+                <li>Novas iniciativas de relacionamento e geração de receita: mais de 80 contratos ativos de patrocinadores, parceiros e licenciamentos;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Continuidade de projetos como SportZone, Ilha de Experiências, Nova Rádio Ilha e Bares do Leão;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Semestre de campanhas exclusivas no varejo: Páscoa, Dia das Mães, Copa do Mundo e Dia dos Namorados;</li>
+              </ul>
+              <p>&#8203;</p>
+              <ul>
+                <li>Melhorias na sede administrativa</li>
+              </ul>
+              <p>      e no CT: desenvolvimentos na</p>
+              <p>      iluminação, camarotes, espaços</p>
+              <p>      de imprensa e projeto do campo</p>
+              <p>      auxiliar;</p>
+              <p>&#8203;</p>
+              <ul>
+                <li>Lançamento do Super App</li>
+              </ul>
+            </div>
+
+            <p class="tlh-socio-label tlh-socio-label--jun">RESULTADOS PROGRAMA DE SÓCIO:</p>
+            <div class="tlh-socio-box tlh-socio-box--jun">
+              <p>25.115 SÓCIOS ATIVOS, SENDO 21.147 PAGANTES<br>FATURAMENTO: R$ 1.273.794,11</p>
+            </div>
+            <a class="tlh-cta tlh-cta--jun" href="#"><span>Veja o relatório completo aqui</span></a>
+
+            <figure class="tlh-mockup">
+              <img src="assets/img/timeline/mockup-1.png" width="613" height="617" alt="Tela inicial do Super App do Sport: logo do programa Sócio Maior do Nordeste, aviso de prioridade na compra, cartão do próximo jogo contra o Londrina na Ilha do Retiro e menu com Início, Ingressos, Partidas, Sorteios e MarIA" loading="lazy" decoding="async">
+            </figure>
+
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PALCO DE BAIXO — frame 1:2, y 8176 → 11044 (rebaseado em −8176)
+       ============================================================ -->
+  <div class="dk-stage dk-stage--bottom">
+    <div class="dk-stage__canvas">
+
+      <!-- ---------- 6. RESULTADOS DO SEMESTRE ---------- -->
+      <section aria-labelledby="resultados-titulo">
+
+        <h2 class="dk-section-title dk-section-title--res" id="resultados-titulo">RESULTADOS DO SEMESTRE</h2>
+
+        <div class="dk-result dk-result--594"></div>
+        <p class="dk-num dk-num--594">594</p>
+        <p class="dk-result-label dk-result-label--594">Sócios contemplados em ações de relacionamento no semestre.</p>
+
+        <div class="dk-result dk-result--10k"></div>
+        <p class="dk-num dk-num--10k">10.334</p>
+        <p class="dk-result-label dk-result-label--10k">Atendimentos<br>presenciais registrados.</p>
+
+        <div class="dk-result dk-result--24k"></div>
+        <p class="dk-num dk-num--24k">24.843</p>
+        <p class="dk-result-label dk-result-label--24k">Conversas finalizadas por MarIA.</p>
+
+        <div class="dk-result dk-result--9k"></div>
+        <p class="dk-num dk-num--9k">9.563</p>
+        <p class="dk-result-label dk-result-label--9k">Tickets resolvidos por atendimento humano.</p>
+
+        <div class="dk-result dk-result--569m"></div>
+        <p class="dk-num dk-num--569m">569.423.444 m</p>
+        <p class="dk-result-label dk-result-label--569m">De visualizações</p>
+
+        <div class="dk-result dk-result--top"></div>
+        <p class="dk-num dk-num--top">top 10</p>
+        <p class="dk-result-label dk-result-label--top">Entre os clubes brasileiros que mais cresceram nas redes sociais no 1º semestre de 2026, segundo o IBOPE Repucom.</p>
+
+        <div class="dk-result dk-result--65"></div>
+        <p class="dk-num dk-num--65">65</p>
+        <div class="dk-result-label dk-result-label--65">
+          <p>Operando em 12 portões</p>
+          <p>na operação de jogo.</p>
+        </div>
+
+      </section>
+
+      <!-- ---------- 7. FECHAMENTO ---------- -->
+      <section aria-labelledby="fechamento-titulo">
+
+        <div class="dk-closing-title" id="fechamento-titulo" role="heading" aria-level="2">
+          <p>PELO SPORT.</p>
+          <p>PELO FUTURO.</p>
+          <p>POR TUDO.</p>
+        </div>
+
+        <div class="dk-closing-body">
+          <p>O primeiro semestre construiu as bases. O trabalho continua.</p>
+          <p>&#8203;</p>
+          <p>Em seis meses, o Sport reorganizou processos, modernizou estruturas, ampliou suas frentes de receita e criou novas formas de relacionamento com o torcedor. Mais do que uma sequência de entregas, o período marcou a consolidação de um novo método: planejar com responsabilidade, executar com eficiência e crescer sem perder a identidade rubro-negra.</p>
+        </div>
+
+      </section>
+
+      <!-- Fundo que fica ACIMA do texto: por último no DOM.
+           No Figma é assim mesmo — o alfa da imagem deixa ler. -->
+      <div class="dk-bg dk-bg--fechamento" aria-hidden="true">
+        <img src="assets/img/desktop/fechamento.png" width="1289" height="980" alt="" loading="lazy" decoding="async">
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script src="assets/js/desktop.js" defer></script>
+
+</body>
+</html>

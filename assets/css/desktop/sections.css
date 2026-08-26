@@ -1,0 +1,360 @@
+/* ============================================================
+   DESKTOP · SEÇÕES DO CANVAS
+   Frame do Figma "Desktop" · node-id 1:2
+
+   Todo left/top/width/height é valor absoluto do Dev Mode —
+   inclusive as frações (285.6806, 2175.5107, 77.802…). Não
+   arredondar sem conferir no Figma.
+
+   As seções do PALCO DE BAIXO estão rebaseadas em −8176px (o
+   frame original ia até 11044; o recorte começa em 8176). O y do
+   Figma vem anotado ao lado de cada uma.
+   ============================================================ */
+
+/* ============================================================
+   1. CARTA DE ABERTURA
+   ============================================================ */
+.dk-letter-title {
+  position: absolute;
+  left: 99px;
+  top: 124px;
+  display: flex;
+  width: 1051px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dk-letter-kicker {
+  position: absolute;
+  left: 99px;
+  top: 194px;
+  width: 153px;
+  height: 24px;
+  margin: 0;
+  color: var(--fig-body);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.dk-letter-body {
+  position: absolute;
+  left: 100px;
+  top: 235px;
+  width: 1013px;
+  color: var(--fig-body);
+  font-size: 16px;
+  font-weight: 500;
+  /* No Figma este bloco usa entrelinha "Auto", que dá 24px em
+     Poppins 16. O `normal` do Chrome dá ~24,5 e, ao longo das 17
+     linhas, empurra o fim do texto 16px para baixo. Fixado em px
+     para bater com o protótipo. */
+  line-height: 24px;
+}
+
+.dk-letter-body p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.dk-letter-body .dk-signature { font-weight: 600; }
+
+/* ============================================================
+   2. HERO
+   ============================================================ */
+.dk-hero-title {
+  position: absolute;
+  left: 334px;              /* centro 640,5 − 613/2 */
+  top: 723px;
+  width: 613px;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 80px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dk-hero-title p { margin: 0; line-height: 80px; }
+
+/* ============================================================
+   3. ORGANOGRAMA EXECUTIVO
+   ============================================================ */
+.dk-org-title {
+  position: absolute;
+  left: 358px;
+  top: 1654px;
+  display: flex;
+  width: 565px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dk-btn {
+  position: absolute;
+  left: 559.5px;
+  top: 1721px;
+  display: flex;
+  width: 161px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 17px;
+  border-radius: 8px;
+  background: var(--fig-red);
+  color: var(--fig-yellow);
+  filter: drop-shadow(-3px 3px 0 var(--fig-shadow));
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 0.99735;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   4. TÍTULOS DE SEÇÃO
+   ============================================================ */
+.dk-section-title {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-red);
+  font-weight: 700;
+  line-height: 0.99735;
+  text-transform: uppercase;
+  transform: translateY(var(--dk-baseline-fix));
+}
+
+.dk-section-title--num { left: 292px; top: 1897px; width: 697px; height: 70px; font-size: 64px; }
+.dk-section-title--res { left: 312px; top:  207px; width: 656px; height: 53px; font-size: 48px; }  /* Figma y 8383 */
+
+/* ============================================================
+   5. GESTÃO EM NÚMEROS
+   ============================================================ */
+
+/* --- cartão: contorno + faixa vermelha --- */
+.dk-stat {
+  position: absolute;
+  width: 285.6806px;
+  height: 213.9565px;
+  border: 1.134px solid var(--fig-red);
+  border-radius: 11.337px;
+}
+
+/* A faixa alinha com a borda EXTERNA do cartão, daí o -1.134px. */
+.dk-stat__bar {
+  position: absolute;
+  left: -1.134px;
+  top: 132.3767px;
+  width: 285.6806px;
+  height: 80.4894px;
+  border-radius: 11.337px;
+  background: var(--fig-red);
+}
+
+.dk-stat--10  { left: 169px;      top: 2042px; }
+.dk-stat--13  { left: 497.2288px; top: 2042px; }
+.dk-stat--soc { left: 825.4575px; top: 2042px; }
+.dk-stat--15  { left: 169px;      top: 2304px; }
+.dk-stat--fem { left: 497px;      top: 2304px; }
+.dk-stat--obr { left: 825px;      top: 2304px; }
+.dk-stat--80  { left: 333px;      top: 2566px; }
+.dk-stat--50  { left: 661px;      top: 2566px; }
+
+/* --- número grande ---
+   Posicionado pelo TEXT NODE do Figma, não pela moldura que o
+   envolve: a moldura centraliza um nó cuja altura não é a mesma
+   da caixa de linha do CSS, e copiar a moldura desalinharia o
+   número. Alinhamento à esquerda, como no protótipo. */
+.dk-num {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-yellow);
+  font-size: 77.802px;
+  font-weight: 700;
+  line-height: 0.999;
+  text-align: left;
+  text-transform: uppercase;
+  transform: translateY(var(--dk-baseline-fix));
+}
+
+.dk-num--10  { left: 271px;      top: 2049px;      width:  86px;      }
+.dk-num--13  { left: 600.56px;   top: 2052.9409px; width:  79.018px;  }
+.dk-num--soc { left: 860.7117px; top: 2059.0193px; width: 226.1131px; }
+.dk-num--15  { left: 245.5px;    top: 2314.5px;    width: 130px;      }
+.dk-num--fem { left: 621px;      top: 2313.5px;    width:  38px;      }
+.dk-num--obr { left: 949px;      top: 2313.5px;    width:  38px;      }
+.dk-num--80  { left: 398.5px;    top: 2576.5px;    width: 152px;      }
+.dk-num--50  { left: 729px;      top: 2579.5px;    width: 151px;      }
+
+/* --- legenda dentro da faixa ---
+   No Figma o texto está em minúsculas com "Capitalize" aplicado.
+   Em elemento posicionado absolutamente o Chrome não trata a
+   primeira letra como início de palavra — só a partir da segunda
+   ela é capitalizada. Por isso a primeira letra vem maiúscula já
+   no HTML; o `capitalize` continua cuidando do resto. */
+.dk-stat-label {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-yellow);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.dk-stat-label p { margin: 0; line-height: 1; }
+
+.dk-stat-label--10  { left: 216.6134px; top: 2198.1836px; width: 190.4537px; }
+.dk-stat-label--13  { left: 532.483px;  top: 2197.6047px; width: 216.3878px; }
+.dk-stat-label--soc { left: 860.7117px; top: 2197.6047px; width: 216.3878px; }
+.dk-stat-label--15  { left: 196px;      top: 2460px;      width: 231px;      }
+.dk-stat-label--fem { left: 512px;      top: 2460px;      width: 258px;      }
+.dk-stat-label--obr { left: 859px;      top: 2452px;      width: 227px;      }
+.dk-stat-label--80  { left: 360px;      top: 2725px;      width: 247px;      }
+.dk-stat-label--50  { left: 681px;      top: 2725px;      width: 247px;      }
+
+.dk-footnote {
+  position: absolute;
+  left: 421px;
+  top: 2836px;
+  width: 438px;
+  height: 24px;
+  margin: 0;
+  color: var(--fig-yellow);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+/* ============================================================
+   6. TÍTULO DA LINHA DO TEMPO
+   Fica no palco de cima e nomeia a seção fixada que vem logo
+   abaixo (via aria-labelledby).
+   ============================================================ */
+.dk-tl-title {
+  position: absolute;
+  left: 230px;              /* centro 640 − 820/2 */
+  top: 2984px;
+  width: 820px;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   7. RESULTADOS DO SEMESTRE     (palco de baixo, y − 8176)
+   ============================================================ */
+.dk-result {
+  position: absolute;
+  width: 406px;
+  height: 214px;
+  border: 1.134px solid var(--fig-red);
+  border-radius: 11.337px;
+}
+
+.dk-result--594  { left: 216px; top:  347px; }   /* Figma y 8523 */
+.dk-result--10k  { left: 658px; top:  347px; }   /* 8523 */
+.dk-result--24k  { left: 216px; top:  593px; }   /* 8769 */
+.dk-result--9k   { left: 658px; top:  593px; }   /* 8769 */
+.dk-result--569m { left: 216px; top:  839px; width: 848px; }  /* 9015 */
+.dk-result--top  { left: 216px; top: 1085px; }   /* 9261 */
+.dk-result--65   { left: 658px; top: 1085px; }   /* 9261 */
+
+.dk-num--594  { left: 340.5px; top:  367px; width: 153px; }   /* 8543 */
+.dk-num--10k  { left: 734px;   top:  367px; width: 250px; }   /* 8543 */
+.dk-num--24k  { left: 287.5px; top:  614px; width: 277px; }   /* 8790 */
+.dk-num--9k   { left: 750px;   top:  613px; width: 218px; }   /* 8789 */
+.dk-num--569m { left: 349px;   top:  868px; width: 582px; }   /* 9044 */
+.dk-num--top  { left: 302.5px; top: 1105px; width: 254px; }   /* 9281 */
+.dk-num--65   { left: 808px;   top: 1105px; width: 102px; }   /* 9281 */
+
+/* Aqui a legenda é vermelha, não amarela como na seção de números. */
+.dk-result-label {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.dk-result-label p { margin: 0; line-height: 1; }
+
+.dk-result-label--594  { left: 282px; top:  486px; width: 275px; }   /* 8662 */
+.dk-result-label--10k  { left: 742px; top:  486px; width: 238px; }   /* 8662 */
+.dk-result-label--24k  { left: 282px; top:  733px; width: 274px; }   /* 8909 */
+.dk-result-label--9k   { left: 767px; top:  725px; width: 188px; }   /* 8901 */
+.dk-result-label--569m { left: 569px; top:  987px; width: 142px; }   /* 9163 */
+.dk-result-label--top  { left: 234px; top: 1214px; width: 375px; }   /* 9390 */
+.dk-result-label--65   { left: 761px; top: 1223px; width: 199px; }   /* 9399 */
+
+/* ============================================================
+   8. FECHAMENTO                 (palco de baixo, y − 8176)
+   ============================================================ */
+.dk-closing-title {
+  position: absolute;
+  left: 230px;              /* centro 640 − 410 */
+  top: 1471px;              /* Figma y 9647 */
+  width: 572px;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-transform: uppercase;
+}
+
+.dk-closing-title p { margin: 0; }
+
+.dk-closing-body {
+  position: absolute;
+  left: 234px;
+  top: 1801px;              /* Figma y 9977 */
+  width: 726px;
+  color: var(--fig-body);
+  font-size: 18.688px;
+  font-weight: 500;
+  line-height: 1.24;
+}
+
+.dk-closing-body p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ============================================================
+   9. FOCO VISÍVEL
+   Único acréscimo ao desenho: o Figma não especifica estado de
+   foco e sem ele o botão fica inacessível por teclado.
+   ============================================================ */
+.dk-btn:focus-visible {
+  outline: 2px solid var(--fig-yellow);
+  outline-offset: 3px;
+}

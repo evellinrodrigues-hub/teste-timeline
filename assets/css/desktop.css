@@ -1,0 +1,20 @@
+/* ============================================================
+   DESKTOP — índice de imports (ordem da cascata)
+
+   Reprodução 1:1 do frame do Figma "Desktop" (node 1:2), com a
+   linha do tempo horizontal (node 2001:3) embutida como seção
+   fixada. A página é autossuficiente: tudo o que ela precisa
+   está nesta cadeia.
+
+   NÃO importa main.css de propósito — as regras fluidas do site
+   responsivo brigariam com a fidelidade pixel a pixel.
+   ============================================================ */
+
+@import url("base/tokens.css");
+@import url("base/frame-reset.css");
+
+@import url("modules/timeline-horizontal.css");
+
+@import url("desktop/canvas.css");
+@import url("desktop/sections.css");
+@import url("desktop/pin.css");

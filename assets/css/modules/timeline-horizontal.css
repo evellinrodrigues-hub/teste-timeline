@@ -1,0 +1,337 @@
+/* ============================================================
+   MÓDULO · LINHA DO TEMPO HORIZONTAL
+   Reprodução 1:1 do frame do Figma "Timeline horizontal"
+   node-id 2001:3 · Site-sport-timeline-horizontal (pbginA9oIVfWl4W9JVCtvb)
+
+   Canvas: 4746 × 1983 px. Origem no canto superior esquerdo do
+   frame. Todo left/top/width/height abaixo é o valor absoluto
+   lido do Dev Mode — não arredondar sem conferir no Figma.
+
+   Namespace `tlh-`. O módulo não sabe onde está montado: serve
+   tanto a página avulsa (timeline-horizontal.html, canvas solto)
+   quanto o trecho fixado do desktop (desktop.html, dentro do
+   pin). Quem decide escala e posicionamento é o consumidor.
+
+   Depende de base/tokens.css (grupo --fig-*).
+   ============================================================ */
+
+/* ============================================================
+   1. CANVAS
+   ============================================================ */
+.tlh-canvas {
+  position: relative;
+  width: 4746px;
+  height: 1983px;
+  overflow: hidden;          /* o frame do Figma recorta o conteúdo */
+  background: var(--fig-bg);
+}
+
+/* Cada <article> de mês é só um agrupamento semântico: como todos
+   os seus descendentes são absolutos, ele mede 0×0 e não desloca
+   nada. O mesmo vale para o <header> de cada mês. Não usamos
+   `display: contents` para não perder o landmark. */
+
+/* ============================================================
+   2. EIXO, NÓS E HASTES
+   ============================================================ */
+.tlh-axis {
+  position: absolute;
+  left: 429px;
+  top: 981px;
+  width: 4080px;
+  height: 2px;
+}
+
+.tlh-node {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+}
+
+.tlh-node--end {
+  left: 4502px;
+  top: 975px;
+  width: 14px;
+  height: 14px;
+}
+
+.tlh-axis img,
+.tlh-node img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Nós de 38px — todos na mesma linha (top 963). */
+.tlh-node--dez { left:  410px; top: 963px; }
+.tlh-node--jan { left:  951px; top: 963px; }
+.tlh-node--fev { left: 1495px; top: 963px; }
+.tlh-node--mar { left: 2037px; top: 963px; }
+.tlh-node--abr { left: 2581px; top: 963px; }
+.tlh-node--mai { left: 3122px; top: 963px; }
+.tlh-node--jun { left: 3665px; top: 963px; }
+
+/* Hastes tracejadas com seta. O SVG é horizontal com a seta na
+   ponta direita; a rotação define para onde ela aponta.
+   A largura 0 + centralização flex fazem a linha nascer
+   exatamente sobre o x informado. */
+.tlh-stem {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;
+  height: 105px;
+}
+
+.tlh-stem img {
+  display: block;
+  flex: none;
+}
+
+.tlh-stem--up img   { transform: rotate(-90deg); }  /* seta para cima  */
+.tlh-stem--down     { height: 92px; }
+.tlh-stem--down img { transform: rotate(90deg); }   /* seta para baixo */
+
+.tlh-stem--dez { left:  429px; top: 976px; }
+.tlh-stem--jan { left:  970px; top: 877px; }
+.tlh-stem--fev { left: 1514px; top: 982px; }
+.tlh-stem--mar { left: 2056px; top: 877px; }
+.tlh-stem--abr { left: 2600px; top: 982px; }
+.tlh-stem--mai { left: 3141px; top: 877px; }
+.tlh-stem--jun { left: 3684px; top: 982px; }
+
+/* ============================================================
+   3. PÍLULA DO MÊS
+   ============================================================ */
+.tlh-month {
+  position: absolute;
+  display: flex;
+  width: 209px;
+  height: 47px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 1px solid var(--fig-red);
+  border-radius: 10px;
+  color: var(--fig-yellow);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Abaixo do eixo o Figma acrescenta 5px de padding lateral
+   (Frame 10), o que leva a caixa de 209 para 219. */
+.tlh-month--wide { width: 219px; }
+
+.tlh-month--dez { left:  319px; top: 1108px; }
+.tlh-month--jan { left:  865px; top:  807px; }
+.tlh-month--fev { left: 1404px; top: 1108px; }
+.tlh-month--mar { left: 1951px; top:  807px; }
+.tlh-month--abr { left: 2490px; top: 1109px; }
+.tlh-month--mai { left: 3033px; top:  806px; }
+.tlh-month--jun { left: 3574px; top: 1110px; }
+
+/* ============================================================
+   4. TÍTULO DO MÊS
+   ============================================================ */
+.tlh-title {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-transform: uppercase;
+}
+
+.tlh-title--dez { left:  327px; top: 1178px; }
+.tlh-title--jan { left:  880px; top:  219px; }
+.tlh-title--fev { left: 1412px; top: 1178px; }
+.tlh-title--mar { left: 1965px; top:  337px; }
+.tlh-title--abr { left: 2501px; top: 1203px; }
+.tlh-title--mai { left: 3052px; top:  195px; }
+.tlh-title--jun { left: 3584px; top: 1204px; }
+
+/* ============================================================
+   5. CORPO DE TEXTO (listas)
+
+   No Figma cada bloco é um único text node com marcadores e
+   quebras manuais. As linhas de continuação são recuadas com
+   espaços literais — daí o `pre-wrap` nos parágrafos.
+   ============================================================ */
+.tlh-body {
+  position: absolute;
+  color: var(--fig-body);
+  font-size: 18.688px;
+  font-weight: 500;
+  line-height: 1.24;
+}
+
+.tlh-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: disc;
+}
+
+.tlh-body li { margin-inline-start: 28.032px; }
+
+.tlh-body p {
+  margin: 0;
+  white-space: pre-wrap;     /* preserva o recuo manual do Figma */
+}
+
+.tlh-body--dez { left:  299px; top: 1282px; width: 443px;     }
+.tlh-body--jan { left:  853px; top:  324px; width: 442.664px; }
+.tlh-body--fev { left: 1384px; top: 1282px; width: 443px;     }
+.tlh-body--mar { left: 1938px; top:  442px; width: 477px;     }
+.tlh-body--abr { left: 2473px; top: 1307px; width: 443px;     }
+.tlh-body--mai { left: 3025px; top:  300px; width: 451px;     }
+.tlh-body--jun { left: 3556px; top: 1308px; width: 373px;     }
+
+/* ============================================================
+   6. FOTOS (moldura vermelha de 2px, stroke por dentro)
+   ============================================================ */
+.tlh-photo {
+  position: absolute;
+  overflow: hidden;
+  border: 2px solid var(--fig-red);
+}
+
+.tlh-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Único enquadramento fora do padrão: no Figma o fill desta
+   foto está deslocado e ampliado dentro da moldura. */
+.tlh-photo--offset img {
+  position: absolute;
+  left: -20.65%;
+  top: 0.02%;
+  width: 127.35%;
+  height: 127.36%;
+  max-width: none;
+  object-fit: fill;
+}
+
+.tlh-photo--dez-a { left:  804px; top: 1203px; width: 369px; height: 246px; }
+.tlh-photo--dez-b { left:  923px; top: 1401px; width: 369px; height: 246px; }
+.tlh-photo--jan-a { left: 1326px; top:  281px; width: 369px; height: 246px; }
+.tlh-photo--jan-b { left: 1445px; top:  479px; width: 369px; height: 246px; }
+.tlh-photo--fev-a { left: 2040px; top: 1422px; width: 369px; height: 246px; }
+.tlh-photo--fev-b { left: 1912px; top: 1198px; width: 369px; height: 246px; }
+.tlh-photo--mar-a { left: 2475px; top:  219px; width: 298px; height: 408px; }
+.tlh-photo--mar-b { left: 2591px; top:  495px; width: 298px; height: 199px; }
+.tlh-photo--abr-a { left: 3087px; top: 1422px; width: 369px; height: 246px; }
+.tlh-photo--abr-b { left: 2987px; top: 1198px; width: 369px; height: 246px; }
+.tlh-photo--mai-a { left: 3530px; top:  219px; width: 369px; height: 246px; }
+.tlh-photo--mai-b { left: 3649px; top:  417px; width: 369px; height: 246px; }
+
+/* Mockup do Super App — sem moldura. */
+.tlh-mockup {
+  position: absolute;
+  left: 3927px;
+  top: 1061px;
+  width: 613px;
+  height: 617px;
+  margin: 0;
+}
+
+.tlh-mockup img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   7. BLOCO "RESULTADOS PROGRAMA DE SÓCIO"
+   ============================================================ */
+.tlh-socio-label {
+  position: absolute;
+  margin: 0;
+  color: var(--fig-red);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.24;
+}
+
+.tlh-socio-box {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  border: 1px solid var(--fig-red);
+  border-radius: 6px;
+}
+
+/* A largura do texto é maior que a área interna da caixa: é
+   assim no Figma, o texto transborda o padding nominal. */
+.tlh-socio-box p {
+  flex: none;
+  width: 388px;
+  margin: 0;
+  color: var(--fig-yellow);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-align: center;
+}
+
+.tlh-socio-box--mai p { width: 405px; }
+
+.tlh-cta {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  border: 1px solid var(--fig-red);
+  border-radius: 6px;
+  background: var(--fig-red);
+  color: var(--fig-yellow);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.24;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.tlh-cta span {
+  flex: none;
+  width: 284px;
+}
+
+.tlh-socio-label--mar { left: 2539px; top:  760px; width: 287px; }
+.tlh-socio-box--mar   { left: 2475px; top:  784px; width: 414px; height: 52px; }
+.tlh-cta--mar         { left: 2526px; top:  845px; width: 312px; height: 32px; }
+
+.tlh-socio-label--abr { left: 2565px; top: 1620px; width: 293px; }
+.tlh-socio-box--abr   { left: 2501px; top: 1649px; width: 422px; height: 62px; }
+.tlh-cta--abr         { left: 2553px; top: 1722px; width: 318px; height: 38px; }
+
+.tlh-socio-label--mai { left: 3594px; top:  712px; width: 293px; }
+.tlh-socio-box--mai   { left: 3530px; top:  741px; width: 439px; height: 62px; }
+.tlh-cta--mai         { left: 3582px; top:  814px; width: 318px; height: 38px; }
+
+.tlh-socio-label--jun { left: 4078px; top: 1692px; width: 293px; }
+.tlh-socio-box--jun   { left: 4014px; top: 1721px; width: 422px; height: 62px; }
+.tlh-cta--jun         { left: 4066px; top: 1794px; width: 318px; height: 38px; }
+
+/* ============================================================
+   8. FOCO VISÍVEL
+   Único acréscimo ao desenho: o Figma não especifica estado de
+   foco, e sem ele os quatro CTAs ficam inacessíveis por teclado.
+   ============================================================ */
+.tlh-cta:focus-visible {
+  outline: 2px solid var(--fig-yellow);
+  outline-offset: 3px;
+}
