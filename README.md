@@ -325,26 +325,29 @@ largura (ele tem `preserveAspectRatio="none"`; esticar o arquivo antigo
 deformaria os tracejados). A ponta do eixo voltou a ser um nó visível no
 arquivo, agora com 16px — a ressalva que este README registrava caiu.
 
-### Para conferir com quem desenha
+### Onde a página se afasta do protótipo
 
-Três coisas foram transcritas **como estão no protótipo** por fidelidade, mas
-parecem deslizes de digitação. Corrigi-las é uma linha em cada caso; diga se
-quer:
+Quatro deslizes de digitação do Figma foram corrigidos **a pedido**, e a
+página deixou de reproduzi-los. Cada um tem uma nota no ponto exato do
+`index.html`; se o protótipo for atualizado, as notas saem:
 
-| Onde | Como está no Figma |
-| --- | --- |
-| Resultados do semestre, cartão `65` | "Catracas operando **perando** em 12 portões" |
-| Gestão em números, cartão `+50` | "**NovosContratos** de patrocinadores" (sem o espaço) |
-| Linha do tempo, julho | entre "Leão Camp" e "Venda do jogador Zé Lucas" há um **item de lista vazio**, que rende um marcador solto |
+| Onde | No Figma | Na página |
+| --- | --- | --- |
+| Resultados, cartão `65` | "Catracas operando **perando** em 12 portões" | "Catracas operando em 12 portões" |
+| Gestão em números, cartão `+50` | "**NovosContratos** de patrocinadores" | "Novos contratos de patrocinadores" |
+| Linha do tempo, julho | **item de lista vazio** entre "Leão Camp" e "Venda do jogador Zé Lucas", que rende um marcador solto | linha em branco num `<p>`, como em todos os outros intervalos do bloco: mesma altura, sem marcador |
+| Linha do tempo, julho | "Lançamento do **1ª** projeto Leão Camp" | "1º projeto" |
 
-E duas de conteúdo, que ninguém além do clube pode decidir: o `<title>` e a
-`<meta description>` ainda dizem **"1º Semestre"** com a linha do tempo indo
-até agosto; e o título da seção fixada continua "A TRANSFORMAÇÃO CHEGA À ILHA
-E AO TORCEDOR", agora com uma seção logo abaixo chamada "A ILHA QUE O
-TORCEDOR MERECE".
+Fora isso, o único acréscimo ao desenho continua sendo o `:focus-visible` dos
+CTAs e do botão do organograma, que o protótipo não especifica.
 
-Os textos alternativos das 26 fotos novas foram escritos pelo que aparece em
-cada exportação. Vale uma revisão de quem produziu as fotos.
+Uma observação que **não** virou mudança, porque é do desenho e não do código:
+a seção fixada se chama "A TRANSFORMAÇÃO CHEGA À ILHA E AO TORCEDOR" e logo
+abaixo dela vem outra chamada "A ILHA QUE O TORCEDOR MERECE".
+
+Os textos alternativos das 26 fotos da grade e das 16 da linha do tempo foram
+escritos pelo que aparece em cada exportação. Vale uma revisão de quem
+produziu as fotos.
 
 ---
 
@@ -481,6 +484,9 @@ coordenadas absolutas. Foi este o caminho para julho e agosto:
    `preserveAspectRatio="none"`, então esticar o mesmo arquivo deformaria os
    tracejados em vez de acrescentar tracejados.
 5. Atualizar `--fig-tl-w` em `tokens.css` e `TL_W` em `desktop.js`.
+6. Estender o período no `<title>`, na `<meta description>` e no `<h1>` do
+   `index.html` — os três dizem "de dezembro de 2025 a agosto de 2026" e
+   andam juntos. É a única coisa da página que não se atualiza sozinha.
 
 O percurso horizontal se recalcula sozinho a partir daí.
 
