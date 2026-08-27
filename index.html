@@ -1,41 +1,10 @@
 <!DOCTYPE html>
-<!--
-  A PÁGINA — os dois frames do Figma unidos num documento só
-  "Desktop V. ATUAL" · node 2096:128  +  "Timeline horizontal" · node 2001:3
-  https://www.figma.com/design/pbginA9oIVfWl4W9JVCtvb/Site-sport-timeline-horizontal
-
-  A linha do tempo vertical do frame do desktop saiu e no lugar
-  dela entrou o frame 2001:3 inteiro, como seção fixada que rola
-  na horizontal enquanto o resto da página rola na vertical.
-
-  ESTRUTURA
-    palco de cima   canvas 1280 × 3443   (carta → título da linha)  ↓ vertical
-    seção fixada    canvas 5845 × 1983   (a linha do tempo)         → horizontal
-    palco do meio   canvas 1280 × 2157   (a grade antes/depois)     ↓ vertical
-    palco de baixo  canvas 1280 × 2868   (resultados e fechamento)  ↓ vertical
-
-  Os palcos são o frame do desktop recortado: o do meio está
-  rebaseado em −5322px e o de baixo, em −8176px do frame
-  anterior. Coordenadas, escala e pin moram no CSS/JS:
-    assets/css/desktop.css     (índice dos módulos)
-    assets/css/desktop/ilha.css (a grade antes/depois)
-    assets/css/desktop/pin.css (o pin e o percurso horizontal)
-    assets/js/desktop.js       (escala + pin)
-
-  Os recuos de espaço dentro de alguns <p> são intencionais: no
-  Figma esses blocos são um único text node com quebras e recuos
-  manuais, preservados via `white-space: pre-wrap`.
--->
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111111">
 
-  <!-- O período é o que a linha do tempo cobre HOJE. Ao acrescentar um mês,
-       atualize aqui, na description e no <h1> — os três andam juntos.
-       (As seções de números continuam sendo de janeiro a junho, e dizem isso
-       no próprio texto.) -->
   <title>Balanço da Gestão · dez/2025 a ago/2026 · Sport Club do Recife</title>
   <meta name="description" content="Organizar, transformar e avançar. Balanço da gestão do Sport Club do Recife de dezembro de 2025 a agosto de 2026: carta da diretoria, gestão em números, linha do tempo da Ilha e resultados.">
 
@@ -54,14 +23,9 @@
 
   <h1 class="sr-only">Balanço da gestão do Sport Club do Recife, de dezembro de 2025 a agosto de 2026</h1>
 
-  <!-- ============================================================
-       PALCO DE CIMA — frame 2096:128, y 0 → 3443
-       ============================================================ -->
   <div class="dk-stage dk-stage--top">
     <div class="dk-stage__canvas">
 
-      <!-- Fundos que ficam ABAIXO do conteúdo: vêm antes no DOM.
-           `bg 1` depois do telão porque se sobrepõem em y 1555-1580. -->
       <div class="dk-bg dk-bg--telao" aria-hidden="true">
         <img src="assets/img/desktop/telao.png" width="1280" height="857" alt="" decoding="async">
       </div>
@@ -69,7 +33,6 @@
         <img src="assets/img/desktop/bg.png" width="1280" height="515" alt="" decoding="async">
       </div>
 
-      <!-- ---------- 1. CARTA DE ABERTURA ---------- -->
       <section aria-labelledby="carta-titulo">
 
         <h2 class="dk-letter-title" id="carta-titulo">Transparência, seriedade e comprometimento.</h2>
@@ -97,7 +60,6 @@
 
       </section>
 
-      <!-- ---------- 2. HERO ---------- -->
       <section aria-labelledby="hero-titulo">
         <div class="dk-hero-title" id="hero-titulo" role="heading" aria-level="2">
           <p>ORGANIZAR,</p>
@@ -106,13 +68,11 @@
         </div>
       </section>
 
-      <!-- ---------- 3. ORGANOGRAMA EXECUTIVO ---------- -->
       <section aria-labelledby="org-titulo">
         <h2 class="dk-org-title" id="org-titulo">ORGANOGRAMA EXECUTIVO</h2>
         <a class="dk-btn" href="#">clique aqui</a>
       </section>
 
-      <!-- ---------- 4. GESTÃO EM NÚMEROS ---------- -->
       <section aria-labelledby="numeros-titulo">
 
         <h2 class="dk-section-title dk-section-title--num" id="numeros-titulo">GESTÃO EM NÚMEROS</h2>
@@ -153,27 +113,18 @@
 
         <div class="dk-stat dk-stat--50"><div class="dk-stat__bar"></div></div>
         <p class="dk-num dk-num--50">+50</p>
-        <!-- No protótipo está "NovosContratos", sem o espaço, porque as duas
-             linhas do nó foram coladas. Corrigido aqui a pedido; se o Figma
-             for atualizado, some com esta nota. -->
+     
         <p class="dk-stat-label dk-stat-label--50">Novos contratos de patrocinadores, parceiros e licenciamento.*</p>
 
         <p class="dk-footnote dk-footnote--num">*O número representa novos contratos e renovações. Os dados mencionados acima referem-se ao período até 30/06/2026.</p>
 
       </section>
 
-      <!-- ---------- 5. TÍTULO DA LINHA DO TEMPO ----------
-           Fica no palco de cima e nomeia a seção fixada abaixo. -->
       <h2 class="dk-tl-title" id="timeline-titulo">A TRANSFORMAÇÃO CHEGA À ILHA E AO TORCEDOR</h2>
 
     </div>
   </div>
 
-  <!-- ============================================================
-       LINHA DO TEMPO — frame 2001:3 (canvas 5845 × 1983, dez → ago)
-       Seção fixada: o scroll vertical vira horizontal aqui dentro
-       e volta a ser vertical no fim. Ver assets/css/desktop/pin.css.
-       ============================================================ -->
   <section class="dk-pin" id="linha-do-tempo" data-pin-section aria-labelledby="timeline-titulo">
     <div class="dk-pin__viewport"
          data-pin-viewport
@@ -643,10 +594,7 @@
                 <li>Lançamento da parceria entre o futsal do Sport e Junpe, fornecedora de materiais esportivos;</li>
               </ul>
               <p>&#8203;</p>
-              <!-- No protótipo estes dois itens estão num só grupo de lista,
-                   com um terceiro em branco no meio — que rende um marcador
-                   solto. Aqui a linha em branco é um <p>, como em todos os
-                   outros intervalos deste bloco: mesma altura, sem marcador. -->
+          
               <ul>
                 <li>Lançamento do 1º projeto Leão Camp;</li>
               </ul>
@@ -675,9 +623,7 @@
 
           </article>
 
-          <!-- ---------- AGOSTO ----------
-               Único mês com uma foto só, e o único sem bloco de sócio:
-               no lugar dele vem a nota de fechamento do relatório. -->
+          <!-- ---------- AGOSTO ----------->
           <article class="tlh-month-group" aria-labelledby="mes-ago">
 
             <div class="tlh-node tlh-node--ago" aria-hidden="true">
@@ -729,16 +675,8 @@
   </section>
 
   <!-- ============================================================
-       PALCO DO MEIO — "A ILHA QUE O TORCEDOR MERECE"
+       ETAPA DO MEIO — "A ILHA QUE O TORCEDOR MERECE"
        frame 2096:128, y 5322 → 7479 (rebaseado em −5322)
-
-       Grade de treze comparações antes/depois. Cada item é um
-       <figure> posicionado; o desenho interno (rótulo, duas fotos,
-       o "x" e as pílulas de estado) é o mesmo em todos e mora em
-       assets/css/desktop/ilha.css.
-
-       As molduras vermelhas das fotos vêm no próprio arquivo, não
-       em CSS — ver o comentário na folha.
        ============================================================ -->
   <div class="dk-stage dk-stage--ilha">
     <div class="dk-stage__canvas">
@@ -931,7 +869,7 @@
   </div>
 
   <!-- ============================================================
-       PALCO DE BAIXO — resultados e fechamento (rebaseado em −8176)
+       ETAPA DE BAIXO — resultados e fechamento (rebaseado em −8176)
        ============================================================ -->
   <div class="dk-stage dk-stage--bottom">
     <div class="dk-stage__canvas">
@@ -967,9 +905,7 @@
 
         <div class="dk-result dk-result--65"></div>
         <p class="dk-num dk-num--65">65</p>
-        <!-- No protótipo está "operando perando", com a palavra repetida.
-             Corrigido aqui a pedido; se o Figma for atualizado, some com
-             esta nota. -->
+        
         <div class="dk-result-label dk-result-label--65">
           <p>Catracas operando em 12 portões</p>
           <p>na operação de jogo.</p>
